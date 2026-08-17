@@ -1,0 +1,104 @@
+.patient-queue {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.patient-queue__title {
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.patient-queue__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.patient-queue__table th {
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--gridline);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.patient-queue__sortable {
+  cursor: pointer;
+}
+
+.patient-queue__sortable:hover {
+  color: var(--text-secondary);
+}
+
+.patient-queue__row {
+  cursor: pointer;
+  border-bottom: 1px solid var(--gridline);
+}
+
+.patient-queue__row:hover {
+  background: color-mix(in srgb, var(--series-blue) 6%, transparent);
+}
+
+.patient-queue__row--selected {
+  background: color-mix(in srgb, var(--series-blue) 12%, transparent);
+}
+
+.patient-queue__row td {
+  padding: 8px;
+}
+
+.patient-queue__name {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.patient-queue__id {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.patient-queue__numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.patient-queue__risk-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.patient-queue__risk-pill--high {
+  color: var(--status-critical);
+  background: color-mix(in srgb, var(--status-critical) 14%, transparent);
+}
+
+.patient-queue__risk-pill--moderate {
+  color: var(--status-serious);
+  background: color-mix(in srgb, var(--status-serious) 16%, transparent);
+}
+
+.patient-queue__risk-pill--low {
+  color: var(--status-good);
+  background: color-mix(in srgb, var(--status-good) 14%, transparent);
+}
+
+.patient-queue__trend {
+  font-weight: 600;
+}
+
+.patient-queue__trend--rising {
+  color: var(--status-critical);
+}
+
+.patient-queue__trend--falling {
+  color: var(--status-good);
+}
+
+.patient-queue__trend--stable {
+  color: var(--text-muted);
+}

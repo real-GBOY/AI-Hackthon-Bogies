@@ -1,0 +1,31 @@
+.trajectory-chart {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.trajectory-chart__title {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.trajectory-chart__tooltip {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.trajectory-chart__tooltip-date {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.trajectory-chart__tooltip-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,75 @@
+.drivers-list {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.drivers-list__title {
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.drivers-list__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.drivers-list__item {
+  display: grid;
+  grid-template-columns: 140px 1fr 56px;
+  align-items: center;
+  gap: 12px;
+}
+
+.drivers-list__name {
+  font-size: 13px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drivers-list__bar-track {
+  position: relative;
+  height: 8px;
+  background: var(--diverging-mid);
+  border-radius: 4px;
+}
+
+.drivers-list__bar-baseline {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--baseline);
+}
+
+.drivers-list__bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+}
+
+.drivers-list__bar--pos {
+  left: 50%;
+  background: var(--diverging-pos);
+}
+
+.drivers-list__bar--neg {
+  right: 50%;
+  background: var(--diverging-neg);
+}
+
+.drivers-list__value {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  text-align: right;
+}
