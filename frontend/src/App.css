@@ -24,6 +24,35 @@
   color: var(--text-muted);
 }
 
+.app__view-switch {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+}
+
+.app__view-tab {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.app__view-tab:hover {
+  color: var(--text-primary);
+}
+
+.app__view-tab--active {
+  background: var(--series-blue);
+  color: white;
+}
+
 .app__live-check {
   display: flex;
   align-items: center;
@@ -80,4 +109,8 @@
   .app__layout {
     grid-template-columns: 1fr;
   }
+}
+
+.app__journey-layout {
+  padding-top: 4px;
 }

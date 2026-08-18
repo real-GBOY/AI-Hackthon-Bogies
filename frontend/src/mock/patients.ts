@@ -12,7 +12,7 @@ import { categorizeRisk, directionFromTrajectory, isNearBoundary } from "../lib/
  * RiskResult shape a real /predict call will eventually return.
  */
 
-function buildRiskResult(trajectoryScores: number[], drivers: Driver[], assessmentTime: string): RiskResult {
+export function buildRiskResult(trajectoryScores: number[], drivers: Driver[], assessmentTime: string): RiskResult {
   const trajectory: TrajectoryPoint[] = trajectoryScores.map((risk, i) => ({
     time: `assessment_${i + 1}`,
     risk,

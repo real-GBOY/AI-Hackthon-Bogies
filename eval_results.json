@@ -1,0 +1,1210 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "question": "What blood pressure defines severe-range hypertension in pregnancy?",
+      "type": "in-scope",
+      "answer": "Severe\u2011range hypertension in pregnancy is defined as a systolic blood pressure of **160\u202fmm\u202fHg or higher** or a diastolic blood pressure of **110\u202fmm\u202fHg or higher**[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.2].",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.8281338214874268
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.8257464170455933
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.8109927177429199
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.8090373277664185
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 42,
+          "score": 0.8065932393074036
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 2,
+      "question": "How is gestational hypertension defined?",
+      "type": "in-scope",
+      "answer": "Gestational hypertension is defined as a systolic blood pressure\u202f\u2265\u202f140\u202fmm\u202fHg or a diastolic blood pressure\u202f\u2265\u202f90\u202fmm\u202fHg (or both) measured on two occasions at least\u202f4\u202fhours apart after\u202f20\u202fweeks of gestation in a woman who previously had normal blood pressure\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.3]\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.2]",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.8408877849578857
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.832240641117096
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.790763795375824
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 5,
+          "score": 0.7827039361000061
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 17,
+          "score": 0.7826238870620728
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 3,
+      "question": "What proteinuria level supports a preeclampsia diagnosis?",
+      "type": "in-scope",
+      "answer": "A protein excretion greater than\u202f0.3\u202fg per 24\u202fhours is considered sufficient to support a diagnosis of pre\u2011eclampsia.\u202f[2011c-who_pe_final_1584190059.pdf p.12]",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.861106812953949
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.8330979347229004
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 5,
+          "score": 0.8126236200332642
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 12,
+          "score": 0.810379683971405
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 10,
+          "score": 0.809482991695404
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "WHO"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 4,
+      "question": "What are the severe features of preeclampsia?",
+      "type": "in-scope",
+      "answer": "**Severe features of pre\u2011eclampsia include**  \n\n- Thrombocytopenia (platelet count\u202f<\u202f100\u202f000/\u00b5L)[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Impaired liver function (ALT/AST\u202f\u2265\u202f2\u202f\u00d7\u202fthe upper limit of normal)[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Severe, persistent right\u2011upper\u2011quadrant or epigastric pain not explained by another diagnosis[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Renal insufficiency (serum creatinine\u202f>\u202f1.1\u202fmg/dL or a doubling of the serum creatinine concentration)[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Pulmonary edema[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- New\u2011onset headache that is unresponsive to acetaminophen and not accounted for by other causes[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Visual disturbances (e.g., blurred vision, scotomata, temporary blindness)[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Severe hypertension that does not respond to treatment (e.g., inability to control BP despite three or more antihypertensive classes)[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.22]  \n- Oliguria (reduced urine output)[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.43]  \n- Nausea or vomiting, epigastric pain, rising creatinine, rising liver transaminases, or falling platelet count indicating progressive laboratory deterioration[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.43]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 22,
+          "score": 0.8516621589660645
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 17,
+          "score": 0.8372126817703247
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 43,
+          "score": 0.8164437413215637
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 9,
+          "score": 0.8140226602554321
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.8102551698684692
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222",
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 5,
+      "question": "What is HELLP syndrome?",
+      "type": "in-scope",
+      "answer": "HELLP syndrome is a severe variant of hypertensive disorders of pregnancy characterized by **hemolysis, elevated liver enzymes, and low platelet count**\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.18]. It often presents with right\u2011upper\u2011quadrant abdominal pain and generalized malaise (up to 90% of cases) and may be accompanied by nausea and vomiting (about 50% of cases); notably, up to 15\u202f% of patients may lack hypertension or proteinuria\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.4].",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.7400228977203369
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 15,
+          "score": 0.7139741778373718
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 18,
+          "score": 0.7104383111000061
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 18,
+          "score": 0.7031568288803101
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 5,
+          "score": 0.7028830051422119
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 6,
+      "question": "What is magnesium sulfate used for in preeclampsia?",
+      "type": "in-scope",
+      "answer": "Magnesium sulfate is given to\u202fprevent and treat seizures (eclampsia) in women with pre\u2011eclampsia, especially when severe features are present, and is considered the drug of choice for eclampsia prophylaxis during the intrapartum and postpartum periods\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.11]\u202f. It is described as a lifesaving medication that should be available in all health\u2011care facilities for the prevention and treatment of eclampsia\u202f[2011c-who_pe_final_1584190059.pdf p.31]\u202f. Although routine prophylactic use in pre\u2011eclampsia without severe features lacks consensus, studies have examined magnesium sulfate for seizure prevention in this group\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.11]\u202f. Comparative trials show magnesium sulfate markedly reduces the risk of eclampsia compared with agents such as phenytoin\u202f[2011c-who_pe_final_1584190059.pdf p.29]\u200b.",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 11,
+          "score": 0.8296916484832764
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 31,
+          "score": 0.8283472657203674
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 18,
+          "score": 0.8236902952194214
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 11,
+          "score": 0.8216915130615234
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 29,
+          "score": 0.8148014545440674
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222",
+        "WHO"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 7,
+      "question": "What are the first-line drugs for acute severe hypertension in pregnancy?",
+      "type": "in-scope",
+      "answer": "The WHO guideline notes that, for severe hypertension in pregnancy, the agents most commonly used and therefore reasonable first\u2011line choices are hydralazine, \u03b1\u2011methyldopa, \u03b2\u2011blockers such as labetalol, and the calcium\u2011channel blocker nifedipine\u202f[2011c-who_pe_final_1584190059.pdf p.28].",
+      "retrieved": [
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 28,
+          "score": 0.7615048289299011
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 14,
+          "score": 0.7425815463066101
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 24,
+          "score": 0.7389736771583557
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 10,
+          "score": 0.7381065487861633
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 27,
+          "score": 0.7317856550216675
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "WHO"
+      ],
+      "citation_correct": true,
+      "faithful": false,
+      "false_refusal": false
+    },
+    {
+      "id": 8,
+      "question": "At what blood pressure should pharmacological treatment be offered for pre-eclampsia?",
+      "type": "in-scope",
+      "answer": "Pharmacological treatment should be offered when blood pressure remains above\u202f140/90\u202fmmHg in women with pre\u2011eclampsia. [hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.21]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 21,
+          "score": 0.8611127138137817
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 23,
+          "score": 0.8286081552505493
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 28,
+          "score": 0.8253931999206543
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 10,
+          "score": 0.8229289054870605
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 14,
+          "score": 0.8051659464836121
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 9,
+      "question": "When should low-dose aspirin be started for preeclampsia prevention?",
+      "type": "in-scope",
+      "answer": "Low\u2011dose aspirin should be started early in pregnancy\u2014ideally in the first trimester.\u202fACOG recommends initiating 81\u202fmg daily between 12\u202fweeks and 28\u202fweeks of gestation, with the greatest benefit when it is begun before 16\u202fweeks and continued until delivery\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.7].\u202fThe WHO guideline advises that low\u2011dose aspirin be started before 20\u202fweeks of pregnancy, and, if possible, as early as 12\u202fweeks\u202f[2011c-who_pe_final_1584190059.pdf p.22]; it further notes that antiplatelet agents may be initiated before 20\u202fweeks, preferably around 12\u202fweeks\u202f[2011c-who_pe_final_1584190059.pdf p.23].",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 7,
+          "score": 0.8888622522354126
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 7,
+          "score": 0.8822548389434814
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 7,
+          "score": 0.867676854133606
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 22,
+          "score": 0.8675177693367004
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 23,
+          "score": 0.8636198043823242
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222",
+        "WHO"
+      ],
+      "citation_correct": true,
+      "faithful": false,
+      "false_refusal": false
+    },
+    {
+      "id": 10,
+      "question": "What is the recommended aspirin dose for preeclampsia prevention?",
+      "type": "in-scope",
+      "answer": "Low\u2011dose aspirin (approximately 75\u202fmg daily) is recommended for the prevention of pre\u2011eclampsia in women at high risk\u202f[2011c-who_pe_final_1584190059.pdf p.22]\u202f[2011c-who_pe_final_1584190059.pdf p.10]. Some guidelines specify a similar low dose of 81\u202fmg daily\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.7].",
+      "retrieved": [
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 22,
+          "score": 0.8699067831039429
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 7,
+          "score": 0.8656424880027771
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 10,
+          "score": 0.8492177724838257
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 7,
+          "score": 0.8477001190185547
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 16,
+          "score": 0.847377598285675
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222",
+        "WHO"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 11,
+      "question": "At what gestational age is delivery recommended for preeclampsia with severe features?",
+      "type": "in-scope",
+      "answer": "Delivery is recommended when preeclampsia with severe features is diagnosed at\u202for\u202fbeyond\u202f34\u202f0\u20447\u202fweeks of gestation\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.9]",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 9,
+          "score": 0.869296669960022
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 16,
+          "score": 0.857731819152832
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 12,
+          "score": 0.8519240617752075
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 9,
+          "score": 0.8469212651252747
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 9,
+          "score": 0.8197606205940247
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 12,
+      "question": "How is eclampsia defined?",
+      "type": "in-scope",
+      "answer": "Eclampsia is a convulsive condition that occurs in association with pre\u2011eclampsia and is defined by the sudden onset of tonic\u2011clonic, focal, or multifocal seizures that are not explained by other causes such as epilepsy, cerebral arterial ischemia, intracranial hemorrhage, or drug use[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.41][Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.4]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 41,
+          "score": 0.7333486080169678
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 43,
+          "score": 0.7221764922142029
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.7220478057861328
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.7102671265602112
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 13,
+          "score": 0.70855712890625
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222",
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 13,
+      "question": "How soon after birth should a woman who had pre-eclampsia have a medical review?",
+      "type": "in-scope",
+      "answer": "A medical review should be offered\u202f6\u202fto\u202f8\u202fweeks after the birth. [hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.26]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 19,
+          "score": 0.8457757830619812
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 26,
+          "score": 0.815233588218689
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 26,
+          "score": 0.8129265308380127
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 27,
+          "score": 0.8024672865867615
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 15,
+          "score": 0.797245979309082
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 14,
+      "question": "Should corticosteroids be given before an early birth in women with pre-eclampsia?",
+      "type": "in-scope",
+      "answer": "Yes. The guidelines advise that if an early birth is likely within\u202f7\u202fdays in a woman with pre\u2011eclampsia, a course of antenatal corticosteroids should be offered\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.33]. The recommendation also applies when planning early birth between\u202f34\u202fand\u202f36\u202fweeks\u202f+\u202f6\u202fdays, where a course of antenatal corticosteroids should be considered\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.24].",
+      "retrieved": [
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 33,
+          "score": 0.7990627288818359
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 33,
+          "score": 0.7897496223449707
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 34,
+          "score": 0.7806582450866699
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 12,
+          "score": 0.7778149843215942
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 24,
+          "score": 0.77458655834198
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 15,
+      "question": "Should corticosteroids be used to treat HELLP syndrome?",
+      "type": "in-scope",
+      "answer": "Corticosteroids are not recommended for the specific purpose of treating women with HELLP syndrome[2011c-who_pe_final_1584190059.pdf p.32]. The available evidence shows no benefit in maternal or perinatal outcomes and is considered insufficient to support their use[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.15].",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 15,
+          "score": 0.8497028350830078
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 32,
+          "score": 0.7993029356002808
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 32,
+          "score": 0.7970146536827087
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 15,
+          "score": 0.7836064100265503
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 33,
+          "score": 0.7637851238250732
+        }
+      ],
+      "hit_doc@5": false,
+      "hit_page@5": false,
+      "cited_labels": [
+        "ACOG-222",
+        "WHO"
+      ],
+      "citation_correct": false,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 16,
+      "question": "What risk factors increase the probability of preeclampsia?",
+      "type": "in-scope",
+      "answer": "Risk factors that increase the probability of preeclampsia include:\n\n- Obesity (body\u2011mass index\u202f>\u202f30)  \n- A family history of preeclampsia (mother or sister)  \n- Sociodemographic characteristics such as African\u2011American race or low socioeconomic status  \n- Maternal age\u202f\u2265\u202f35\u202fyears  \n- Personal\u2011history factors, for example a prior low\u2011birth\u2011weight or small\u2011for\u2011gestational\u2011age infant, a previous adverse pregnancy outcome, or a pregnancy interval of more than\u202f10\u202fyears  \n\nThese factors are identified as those that raise the incidence of preeclampsia to approximately\u202f8\u202f% or higher when present\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.8].",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 1,
+          "score": 0.8305903673171997
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 16,
+          "score": 0.8048168420791626
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 8,
+          "score": 0.7986855506896973
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 1,
+          "score": 0.7953852415084839
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 8,
+          "score": 0.7916967868804932
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 17,
+      "question": "How is chronic hypertension in pregnancy defined?",
+      "type": "in-scope",
+      "answer": "Chronic hypertension in pregnancy is defined as hypertension that is present before pregnancy or that is diagnosed during the first\u202f20\u202fweeks of gestation\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.57]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 57,
+          "score": 0.7899543046951294
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 5,
+          "score": 0.7854288816452026
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 1,
+          "score": 0.7798856496810913
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.7785675525665283
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.7782849073410034
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 18,
+      "question": "What is the general definition of preeclampsia?",
+      "type": "in-scope",
+      "answer": "Preeclampsia is a disorder of pregnancy associated with new\u2011onset hypertension that most often develops after 20\u202fweeks of gestation and frequently near term; it is usually accompanied by new\u2011onset proteinuria, although hypertension and other signs or symptoms of preeclampsia may be present even in the absence of proteinuria. [Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.1]",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 1,
+          "score": 0.7883924841880798
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 41,
+          "score": 0.7502734661102295
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.7476360201835632
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 12,
+          "score": 0.7381213903427124
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.7370327711105347
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 19,
+      "question": "What laboratory monitoring is recommended for gestational hypertension or preeclampsia without severe features?",
+      "type": "in-scope",
+      "answer": "In women with gestational hypertension or pre\u2011eclampsia without severe features, the guideline recommends **weekly laboratory testing** that includes:\n\n* **Platelet count**  \n* **Serum creatinine**  \n* **Liver enzyme levels**  \n\nFor those with gestational hypertension, **weekly assessment of proteinuria** is also advised. These tests should be repeated sooner if there is concern for disease progression.\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.10]",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 8,
+          "score": 0.8479905128479004
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 10,
+          "score": 0.8312559723854065
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 17,
+          "score": 0.8115990161895752
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 28,
+          "score": 0.8080376386642456
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 9,
+          "score": 0.8024598956108093
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 20,
+      "question": "What are the long-term cardiovascular risks after preeclampsia?",
+      "type": "in-scope",
+      "answer": "Women who have had pre\u2011eclampsia face a markedly higher chance of developing cardiovascular disease later in life.  The long\u2011term sequelae include hypertension, myocardial infarction, congestive heart failure, peripheral arterial disease, cerebrovascular events such as stroke, and increased cardiovascular mortality\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.15].  \n\nEpidemiologic data show that the overall odds of any cardiovascular disease are roughly doubled compared with women who were not affected by pre\u2011eclampsia, and the risk rises with the severity of the original pregnancy disorder (mild pre\u2011eclampsia RR\u202f\u2248\u202f2.0; moderate RR\u202f\u2248\u202f3.0; severe RR\u202f\u2248\u202f5.4)\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.15].  Women with recurrent pre\u2011eclampsia or early\u2011onset disease have an even higher risk (4\u20138\u202ftimes that of women with uncomplicated pregnancies)\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.15].  \n\nA summary table of cardiovascular outcomes after any hypertensive disorder of pregnancy reports that pre\u2011eclampsia specifically is associated with:  \n\n* Future cardiovascular disease \u2013 risk increased up to \u2248\u202f2\u202ftimes\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.39]  \n* Cardiovascular mortality \u2013 risk increased up to \u2248\u202f2\u202ftimes\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.39]  \n* Stroke \u2013 risk increased up to \u2248\u202f1.5\u20133\u202ftimes\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.39]  \n* Hypertension \u2013 risk increased approximately 2\u20134\u202ftimes\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.39]  \n\nThus, a history of pre\u2011eclampsia confers long\u2011term elevated risks for a spectrum of cardiovascular conditions, with the magnitude of risk linked to the severity and recurrence of the pregnancy disorder.",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 16,
+          "score": 0.847999632358551
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 16,
+          "score": 0.8310539126396179
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 15,
+          "score": 0.8167792558670044
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 41,
+          "score": 0.8119739294052124
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 39,
+          "score": 0.7930846810340881
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222",
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 21,
+      "question": "What symptoms characterize severe pre-eclampsia requiring urgent evaluation?",
+      "type": "in-scope",
+      "answer": "Severe pre\u2011eclampsia is signalled by any of the following symptoms that require urgent evaluation:\n\n- Persistent, severe headache that does not respond to acetaminophen\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.43]  \n- Visual disturbances such as blurring, flashing lights or scotomata\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.6]\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Epigastric or right\u2011upper\u2011quadrant pain (severe pain just below the ribs)\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.6]\u202f[Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.17]  \n- Nausea or vomiting\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.43]\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.6]  \n- Sudden swelling of the face, hands or feet\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.6]  \n- Oliguria (reduced urine output)\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.43]  \n- Severe hypertension that cannot be controlled despite the use of three or more antihypertensive agents\u202f[hypertension\u2011in\u2011pregnancy\u2011diagnosis\u2011and\u2011management\u2011pdf\u201166141717671365.pdf p.22]  \n\nThese clinical features define severe pre\u2011eclampsia and indicate the need for immediate assessment and management.",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 43,
+          "score": 0.816050112247467
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 6,
+          "score": 0.8042832612991333
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.7942479848861694
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 17,
+          "score": 0.7929801344871521
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 22,
+          "score": 0.7912167310714722
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": false,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 22,
+      "question": "How should fetal growth be monitored in women with chronic hypertension?",
+      "type": "in-scope",
+      "answer": "Women with chronic hypertension should have serial ultrasounds to assess fetal growth (and amniotic\u2011fluid volume) together with umbilical\u2011artery Doppler studies at 28\u202fweeks, 32\u202fweeks and 36\u202fweeks of gestation.\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.27]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 27,
+          "score": 0.8235896825790405
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 10,
+          "score": 0.8083685636520386
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 8,
+          "score": 0.8005499839782715
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 28,
+          "score": 0.7968507409095764
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 14,
+          "score": 0.7893452048301697
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 23,
+      "question": "What is the first-line oral antihypertensive for chronic hypertension in pregnancy?",
+      "type": "in-scope",
+      "answer": "Labetalol is recommended as the first\u2011line oral antihypertensive for chronic hypertension in pregnancy\u202f[hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf p.50]",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 50,
+          "score": 0.7844482660293579
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 12,
+          "score": 0.7619059681892395
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 28,
+          "score": 0.7588712573051453
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 23,
+          "score": 0.7580145597457886
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 53,
+          "score": 0.7521942853927612
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "NICE-NG133"
+      ],
+      "citation_correct": true,
+      "faithful": false,
+      "false_refusal": false
+    },
+    {
+      "id": 24,
+      "question": "What oral labetalol regimen is used for gestational hypertension managed expectantly?",
+      "type": "in-scope",
+      "answer": "The regimen is to start oral labetalol 200\u202fmg every 12\u202fhours and then increase the dose as needed up to 800\u202fmg every 8\u201312\u202fhours, with a maximum total dose of 2,400\u202fmg per day [Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf p.12].",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 12,
+          "score": 0.8105352520942688
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 53,
+          "score": 0.7802897095680237
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 12,
+          "score": 0.7636597156524658
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 50,
+          "score": 0.7544437050819397
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 22,
+          "score": 0.7478571534156799
+        }
+      ],
+      "hit_doc@5": true,
+      "hit_page@5": true,
+      "cited_labels": [
+        "ACOG-222"
+      ],
+      "citation_correct": true,
+      "faithful": true,
+      "false_refusal": false
+    },
+    {
+      "id": 25,
+      "question": "What antibiotic treats a urinary tract infection?",
+      "type": "refusal",
+      "answer": "The provided guidelines do not cover this.",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 18,
+          "score": 0.5957025289535522
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 25,
+          "score": 0.5940242409706116
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 12,
+          "score": 0.5936377048492432
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 29,
+          "score": 0.5897173881530762
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 11,
+          "score": 0.5824445486068726
+        }
+      ],
+      "refused_correctly": true
+    },
+    {
+      "id": 26,
+      "question": "What is the treatment for a broken arm?",
+      "type": "refusal",
+      "answer": "The provided guidelines do not cover this.",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 3,
+          "score": 0.5402104258537292
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 23,
+          "score": 0.539368748664856
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 60,
+          "score": 0.5377923250198364
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 3,
+          "score": 0.5376845598220825
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 15,
+          "score": 0.5325162410736084
+        }
+      ],
+      "refused_correctly": true
+    },
+    {
+      "id": 27,
+      "question": "What's a good diet for type 2 diabetes?",
+      "type": "refusal",
+      "answer": "The provided guidelines do not cover this.",
+      "retrieved": [
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 16,
+          "score": 0.622750997543335
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 11,
+          "score": 0.6064407229423523
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 19,
+          "score": 0.605940043926239
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 3,
+          "score": 0.6046329736709595
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 9,
+          "score": 0.6028728485107422
+        }
+      ],
+      "refused_correctly": true
+    },
+    {
+      "id": 28,
+      "question": "What is the recommended treatment for the common cold?",
+      "type": "refusal",
+      "answer": "The provided guidelines do not cover this.",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 3,
+          "score": 0.6556256413459778
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 60,
+          "score": 0.6434817910194397
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 15,
+          "score": 0.6319933533668518
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 33,
+          "score": 0.6135513186454773
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 3,
+          "score": 0.6107863187789917
+        }
+      ],
+      "refused_correctly": true
+    },
+    {
+      "id": 29,
+      "question": "What is the appropriate ibuprofen dosage for a headache in a non-pregnant adult?",
+      "type": "refusal",
+      "answer": "The provided guidelines do not cover this.",
+      "retrieved": [
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 22,
+          "score": 0.7186708450317383
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 7,
+          "score": 0.7037148475646973
+        },
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 50,
+          "score": 0.7016785740852356
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 14,
+          "score": 0.6993072032928467
+        },
+        {
+          "source": "2011c-who_pe_final_1584190059.pdf",
+          "page": 31,
+          "score": 0.6990811824798584
+        }
+      ],
+      "refused_correctly": true
+    },
+    {
+      "id": 30,
+      "question": "What are the symptoms of appendicitis?",
+      "type": "refusal",
+      "answer": "The provided guidelines do not cover this.",
+      "retrieved": [
+        {
+          "source": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+          "page": 6,
+          "score": 0.6939113140106201
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.6886306405067444
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 2,
+          "score": 0.673681914806366
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 3,
+          "score": 0.6311995387077332
+        },
+        {
+          "source": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
+          "page": 4,
+          "score": 0.6277776956558228
+        }
+      ],
+      "refused_correctly": true
+    }
+  ],
+  "summary": {
+    "n_in_scope": 24,
+    "n_refusal": 6,
+    "n_errors": 0,
+    "retrieval_hit_rate_doc@5": 95.8,
+    "retrieval_hit_rate_page@5": 95.8,
+    "citation_accuracy": 91.7,
+    "faithfulness": 87.5,
+    "false_refusal_rate": 0.0,
+    "refusal_accuracy": 100.0
+  }
+}
