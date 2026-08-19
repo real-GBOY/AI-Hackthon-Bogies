@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Patient, RagQueryResponse } from "../../types";
 import { queryRag } from "../../api";
 import { COLOR } from "../theme";
+import { evidence, neutral, primary, shadow } from "../colors";
 import "./Views.css";
 
 interface Thread {
@@ -28,7 +29,7 @@ function renderAnswer(answer: string) {
       <span
         key={i}
         className="mono"
-        style={{ fontSize: 11, color: COLOR.primary, background: "oklch(0.96 0.02 285)", borderRadius: 4, padding: "0 4px" }}
+        style={{ fontSize: 11, color: COLOR.primary, background: primary.tint, borderRadius: 4, padding: "0 4px" }}
       >
         {part}
       </span>
@@ -77,9 +78,9 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "216px 1fr 300px", alignItems: "stretch", minHeight: "calc(100vh - 118px)", margin: "-26px -28px -40px" }}>
-      <div style={{ borderRight: "1px solid #e3e6ec", background: "#fff", display: "flex", flexDirection: "column", gap: 4, padding: "16px 10px" }}>
+      <div style={{ borderRight: `1px solid ${neutral.border}`, background: neutral.white, display: "flex", flexDirection: "column", gap: 4, padding: "16px 10px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "0 8px 8px" }}>
-          <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: "#9aa1b0" }}>HISTORY</span>
+          <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>HISTORY</span>
           <div style={{ flex: 1 }} />
           <button
             onClick={() => {
@@ -91,7 +92,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
             New
           </button>
         </div>
-        {threads.length === 0 && <div style={{ padding: "8px", fontSize: 11.5, color: "#a8aeba" }}>No questions asked yet this session.</div>}
+        {threads.length === 0 && <div style={{ padding: "8px", fontSize: 11.5, color: neutral.slateFaint }}>No questions asked yet this session.</div>}
         {[...threads].reverse().map((t) => (
           <button
             key={t.id}
@@ -105,7 +106,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
               borderRadius: 8,
               padding: "9px 10px",
               cursor: "pointer",
-              background: activeId === t.id ? "#f2f3f6" : "transparent",
+              background: activeId === t.id ? neutral.surfaceMuted : "transparent",
             }}
           >
             <span style={{ fontSize: 12.5, fontWeight: 500, lineHeight: 1.35 }}>{t.question}</span>
@@ -114,10 +115,10 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "14px 24px", borderBottom: "1px solid #e3e6ec", background: "#fff" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "14px 24px", borderBottom: `1px solid ${neutral.border}`, background: neutral.white }}>
           <span style={{ fontSize: 13, fontWeight: 600 }}>{contextPatient ? contextPatient.name : "Guideline assistant"}</span>
           {contextPatient && (
-            <span className="mono" style={{ fontSize: 11, color: "#8a91a0" }}>
+            <span className="mono" style={{ fontSize: 11, color: neutral.slateSoft }}>
               {contextPatient.id} · {contextPatient.age}y
             </span>
           )}
@@ -127,9 +128,9 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
                 fontSize: 10.5,
                 fontWeight: 600,
                 letterSpacing: "0.04em",
-                color: "oklch(0.42 0.14 285)",
-                background: "oklch(0.96 0.02 285)",
-                border: "1px solid oklch(0.90 0.03 285)",
+                color: primary.text,
+                background: primary.tint,
+                border: `1px solid ${primary.border}`,
                 borderRadius: 6,
                 padding: "3px 8px",
               }}
@@ -141,7 +142,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
           <select
             value={contextPatientId ?? ""}
             onChange={(e) => setContextPatientId(e.target.value || null)}
-            style={{ background: "#fff", border: "1px solid #e3e6ec", borderRadius: 7, padding: "6px 10px", fontSize: 11.5 }}
+            style={{ background: neutral.white, border: `1px solid ${neutral.border}`, borderRadius: 7, padding: "6px 10px", fontSize: 11.5 }}
           >
             <option value="">No patient context</option>
             {patients.map((p) => (
@@ -154,7 +155,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
 
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 18, padding: "22px 24px 12px", overflow: "auto" }}>
           {!active && (
-            <div style={{ fontSize: 13, color: "#8a91a0" }}>
+            <div style={{ fontSize: 13, color: neutral.slateSoft }}>
               Ask a guideline-grounded question. Answers come only from the indexed clinical guideline corpus, with citations.
             </div>
           )}
@@ -165,14 +166,14 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
                 <div
                   style={{
                     maxWidth: "64ch",
-                    background: "#fff",
-                    border: "1px solid #e3e6ec",
+                    background: neutral.white,
+                    border: `1px solid ${neutral.border}`,
                     borderRadius: 12,
                     borderBottomRightRadius: 4,
                     padding: "12px 15px",
                     fontSize: 13.5,
                     lineHeight: 1.55,
-                    boxShadow: "0 1px 2px rgba(20,22,28,0.04)",
+                    boxShadow: shadow.sm,
                   }}
                 >
                   {active.question}
@@ -184,13 +185,13 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
                   <div className="hdp-ai-icon">
                     <span className="hdp-ai-icon-dot" />
                   </div>
-                  <span style={{ fontSize: 13, color: "#8a91a0", paddingTop: 6 }}>Retrieving guidance…</span>
+                  <span style={{ fontSize: 13, color: neutral.slateSoft, paddingTop: 6 }}>Retrieving guidance…</span>
                 </div>
               )}
 
               {active.status === "error" && (
                 <div style={{ display: "flex", gap: 13, alignItems: "flex-start", maxWidth: "70ch" }}>
-                  <div style={{ width: 28, height: 28, flex: "0 0 28px", borderRadius: 8, background: "#eef0f4" }} />
+                  <div style={{ width: 28, height: 28, flex: "0 0 28px", borderRadius: 8, background: neutral.borderSoft }} />
                   <div className="hdp-panel" style={{ padding: "16px 18px" }}>
                     <span style={{ fontSize: 13, color: COLOR.high }}>Couldn't reach the assistant — {active.error}</span>
                   </div>
@@ -216,19 +217,19 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
                           style={{
                             fontSize: 11,
                             fontWeight: 500,
-                            background: "oklch(0.96 0.02 170)",
-                            border: "1px solid oklch(0.88 0.04 170)",
+                            background: evidence.bg,
+                            border: `1px solid ${evidence.border}`,
                             borderRadius: 6,
                             padding: "3px 8px",
-                            color: "oklch(0.42 0.09 170)",
+                            color: evidence.text,
                           }}
                         >
                           {active.data.citations.length} source{active.data.citations.length === 1 ? "" : "s"} cited
                         </span>
-                        <span className="mono" style={{ fontSize: 11, color: "#9aa1b0" }}>
+                        <span className="mono" style={{ fontSize: 11, color: neutral.slateSofter }}>
                           retrieval {active.data.citations.map((c) => c.score.toFixed(2)).join(" / ")}
                         </span>
-                        <span style={{ fontSize: 11, color: "#9aa1b0" }}>Decision support only — not a treatment recommendation.</span>
+                        <span style={{ fontSize: 11, color: neutral.slateSofter }}>Decision support only — not a treatment recommendation.</span>
                       </div>
                     )}
                   </div>
@@ -238,13 +239,13 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
           )}
         </div>
 
-        <div style={{ borderTop: "1px solid #e3e6ec", background: "#fff", padding: "14px 24px", display: "flex", flexDirection: "column", gap: 11 }}>
+        <div style={{ borderTop: `1px solid ${neutral.border}`, background: neutral.white, padding: "14px 24px", display: "flex", flexDirection: "column", gap: 11 }}>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               submit(input, contextPatientId);
             }}
-            style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid #e3e6ec", borderRadius: 10, padding: "10px 12px" }}
+            style={{ display: "flex", alignItems: "center", gap: 10, border: `1px solid ${neutral.border}`, borderRadius: 10, padding: "10px 12px" }}
           >
             <input
               value={input}
@@ -252,7 +253,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
               placeholder={contextPatient ? `Ask about ${contextPatient.name} or the guidelines` : "Ask about the guidelines"}
               style={{ border: 0, outline: 0, background: "transparent", fontSize: 13, flex: 1 }}
             />
-            <span className="mono" style={{ fontSize: 10.5, color: "#a8aeba" }}>
+            <span className="mono" style={{ fontSize: 10.5, color: neutral.slateFaint }}>
               grounded · cited
             </span>
             <button
@@ -267,33 +268,33 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
         </div>
       </div>
 
-      <div style={{ borderLeft: "1px solid #e3e6ec", background: "#fff", display: "flex", flexDirection: "column", gap: 10, padding: "16px 14px" }}>
+      <div style={{ borderLeft: `1px solid ${neutral.border}`, background: neutral.white, display: "flex", flexDirection: "column", gap: 10, padding: "16px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: "#9aa1b0" }}>EVIDENCE</span>
+          <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>EVIDENCE</span>
           <div style={{ flex: 1 }} />
           {active?.data && (
-            <span className="mono" style={{ fontSize: 10.5, color: "#a8aeba" }}>
+            <span className="mono" style={{ fontSize: 10.5, color: neutral.slateFaint }}>
               {active.data.citations.length} retrieved
             </span>
           )}
         </div>
-        {!active?.data?.citations.length && <span style={{ fontSize: 11.5, color: "#a8aeba" }}>Citations for the current answer appear here.</span>}
+        {!active?.data?.citations.length && <span style={{ fontSize: 11.5, color: neutral.slateFaint }}>Citations for the current answer appear here.</span>}
         {active?.data?.citations.map((c, i) => (
-          <div key={i} style={{ border: "1px solid #eef0f4", borderRadius: 10, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5 }}>
+          <div key={i} style={{ border: `1px solid ${neutral.borderSoft}`, borderRadius: 10, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5 }}>
             <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              <span className="mono" style={{ fontSize: 10.5, color: COLOR.primary, border: "1px solid oklch(0.90 0.03 285)", borderRadius: 5, padding: "1px 5px" }}>
+              <span className="mono" style={{ fontSize: 10.5, color: COLOR.primary, border: `1px solid ${primary.border}`, borderRadius: 5, padding: "1px 5px" }}>
                 {i + 1}
               </span>
               <span style={{ flex: 1 }} />
-              <span className="mono" style={{ fontSize: 10, color: "#a8aeba" }}>
+              <span className="mono" style={{ fontSize: 10, color: neutral.slateFaint }}>
                 {c.score.toFixed(2)}
               </span>
             </span>
             <span style={{ fontSize: 11.5, fontWeight: 500, lineHeight: 1.4, wordBreak: "break-word" }}>{c.source}</span>
-            <span style={{ fontSize: 10.5, color: "#9aa1b0" }}>p. {c.page}</span>
+            <span style={{ fontSize: 10.5, color: neutral.slateSofter }}>p. {c.page}</span>
           </div>
         ))}
-        <span style={{ fontSize: 10.5, color: "#b6bcc7", lineHeight: 1.5, paddingTop: 4 }}>
+        <span style={{ fontSize: 10.5, color: neutral.slateFainter, lineHeight: 1.5, paddingTop: 4 }}>
           Retrieved from the indexed guideline corpus. Every claim in the answer links to one of these passages.
         </span>
       </div>

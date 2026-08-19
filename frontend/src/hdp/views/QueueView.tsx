@@ -1,6 +1,7 @@
 import type { Patient, RiskCategory } from "../../types";
 import { formatFeatureName, leadingDriver } from "../aggregate";
 import { avatarStyle, bandColor, displayScore, dotStyle, initials, pillStyle, trendChipStyle, trendLabel } from "../theme";
+import { neutral } from "../colors";
 import "./Views.css";
 
 interface QueueViewProps {
@@ -44,10 +45,10 @@ export function QueueView({ patients, onOpenPatient }: QueueViewProps) {
             <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 20px" }}>
               <span style={dotStyle(bandColor(g.category))} />
               <span style={{ fontSize: 13.5, fontWeight: 600 }}>{g.label}</span>
-              <span className="mono" style={{ fontSize: 10.5, color: "#8a91a0" }}>
+              <span className="mono" style={{ fontSize: 10.5, color: neutral.slateSoft }}>
                 {rows.length}
               </span>
-              <span style={{ fontSize: 11.5, color: "#666d7d" }}>{g.sub}</span>
+              <span style={{ fontSize: 11.5, color: neutral.slate }}>{g.sub}</span>
             </div>
             <div className="hdp-table__head" style={{ gridTemplateColumns: "1.5fr 0.8fr 0.7fr 2fr 1fr" }}>
               <span>PATIENT</span>
@@ -78,8 +79,8 @@ export function QueueView({ patients, onOpenPatient }: QueueViewProps) {
                   <span>
                     <span style={trendChipStyle(r.trajectory_direction)}>{trendLabel(r.trajectory_direction)}</span>
                   </span>
-                  <span style={{ fontSize: 12, color: "#666d7d", lineHeight: 1.45 }}>{reason(p)}</span>
-                  <span style={{ fontSize: 11.5, color: "#8a91a0", textAlign: "right" }}>
+                  <span style={{ fontSize: 12, color: neutral.slate, lineHeight: 1.45 }}>{reason(p)}</span>
+                  <span style={{ fontSize: 11.5, color: neutral.slateSoft, textAlign: "right" }}>
                     {new Date(r.assessment_time).toLocaleDateString()}
                   </span>
                 </div>

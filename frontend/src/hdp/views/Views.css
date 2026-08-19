@@ -36,10 +36,10 @@
 }
 
 .hdp-panel {
-  background: #fff;
-  border: 1px solid #e3e6ec;
+  background: var(--hdp-white);
+  border: 1px solid var(--hdp-border);
   border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(20, 22, 28, 0.04);
+  box-shadow: var(--hdp-shadow-sm);
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
@@ -58,15 +58,15 @@
 
 .hdp-panel-sub {
   font-size: 11.5px;
-  color: #8a91a0;
+  color: var(--hdp-faint);
 }
 
 .hdp-kpi {
-  background: #fff;
-  border: 1px solid #e3e6ec;
+  background: var(--hdp-white);
+  border: 1px solid var(--hdp-border);
   border-radius: 12px;
   padding: 16px 16px 12px;
-  box-shadow: 0 1px 2px rgba(20, 22, 28, 0.04);
+  box-shadow: var(--hdp-shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -78,7 +78,7 @@
   gap: 7px;
   font-size: 11.5px;
   font-weight: 500;
-  color: #666d7d;
+  color: var(--hdp-muted);
   letter-spacing: 0.01em;
 }
 
@@ -97,12 +97,12 @@
 
 .hdp-kpi-sub {
   font-size: 11px;
-  color: #8a91a0;
+  color: var(--hdp-faint);
 }
 
 .hdp-ai-panel {
-  background: oklch(0.985 0.008 285);
-  border: 1px solid oklch(0.9 0.03 285);
+  background: var(--hdp-primary-tint-ghost);
+  border: 1px solid var(--hdp-primary-border);
   border-radius: 12px;
   padding: 18px 20px;
   display: flex;
@@ -121,7 +121,7 @@
   height: 30px;
   flex: 0 0 30px;
   border-radius: 9px;
-  background: oklch(0.52 0.14 285);
+  background: var(--hdp-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +138,7 @@
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #fff;
+  background: var(--hdp-white);
   animation: hdpPulseDot 1.8s ease-in-out infinite;
 }
 
@@ -146,14 +146,14 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: oklch(0.42 0.14 285);
+  color: var(--hdp-primary-text);
 }
 
 .hdp-table {
-  background: #fff;
-  border: 1px solid #e3e6ec;
+  background: var(--hdp-white);
+  border: 1px solid var(--hdp-border);
   border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(20, 22, 28, 0.04);
+  box-shadow: var(--hdp-shadow-sm);
   overflow: hidden;
 }
 
@@ -161,22 +161,22 @@
   display: grid;
   gap: 12px;
   padding: 10px 20px;
-  background: #fafbfc;
-  border-bottom: 1px solid #eef0f4;
+  background: var(--hdp-panel-bg);
+  border-bottom: 1px solid var(--hdp-border-soft);
 }
 
 .hdp-table__head span {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: #9aa1b0;
+  color: var(--hdp-faint-2);
 }
 
 .hdp-table__row {
   display: grid;
   gap: 12px;
   padding: 13px 20px;
-  border-bottom: 1px solid #f3f4f7;
+  border-bottom: 1px solid var(--hdp-row-border);
   align-items: center;
 }
 
@@ -184,7 +184,7 @@
   cursor: pointer;
 }
 .hdp-table__row--click:hover {
-  background: #fafbfc;
+  background: var(--hdp-panel-bg);
 }
 
 .hdp-avatar-cell {
@@ -204,7 +204,7 @@
 
 .hdp-avatar-cell .mrn {
   font-size: 10.5px;
-  color: #9aa1b0;
+  color: var(--hdp-faint-2);
 }
 
 .hdp-chip-row {
@@ -218,28 +218,28 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
-  border: 1px solid #e3e6ec;
+  background: var(--hdp-white);
+  border: 1px solid var(--hdp-border);
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 12px;
   cursor: pointer;
-  color: #3c4250;
+  color: var(--hdp-text-soft);
 }
 .hdp-chip:hover {
-  background: #f2f3f6;
+  background: var(--hdp-surface-muted);
 }
 .hdp-chip--active {
-  background: oklch(0.96 0.02 285);
-  border-color: oklch(0.9 0.03 285);
-  color: oklch(0.42 0.14 285);
+  background: var(--hdp-primary-tint);
+  border-color: var(--hdp-primary-border);
+  color: var(--hdp-primary-text);
   font-weight: 500;
 }
 
 .hdp-tabs {
   display: flex;
   gap: 4px;
-  background: #eef0f4;
+  background: var(--hdp-border-soft);
   border-radius: 9px;
   padding: 3px;
   align-self: flex-start;
@@ -248,7 +248,7 @@
 .hdp-tab {
   border: 0;
   background: transparent;
-  color: #8a91a0;
+  color: var(--hdp-faint);
   font-weight: 500;
   font-size: 12.5px;
   border-radius: 7px;
@@ -257,9 +257,9 @@
 }
 
 .hdp-tab--active {
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(20, 22, 28, 0.06);
-  color: #14161c;
+  background: var(--hdp-white);
+  box-shadow: var(--hdp-shadow-md);
+  color: var(--hdp-text);
   font-weight: 600;
 }
 
@@ -271,7 +271,7 @@
 
 .hdp-bar-track {
   height: 6px;
-  background: #f2f3f6;
+  background: var(--hdp-surface-muted);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -288,6 +288,6 @@
   flex-direction: column;
   gap: 6px;
   align-items: flex-start;
-  color: #8a91a0;
+  color: var(--hdp-faint);
   font-size: 12.5px;
 }

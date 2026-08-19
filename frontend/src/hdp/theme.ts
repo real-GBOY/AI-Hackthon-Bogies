@@ -1,28 +1,38 @@
 /**
- * Visual tokens for the HDP Intelligence clinician UI, derived from the
- * Claude Design mockup ("HDP Intelligence.dc.html"). Colors mirror the
- * mockup's oklch palette; the band thresholds mirror lib/risk.ts so a
- * patient card here always agrees with categorizeRisk().
+ * Style-object builders for the HDP Intelligence clinician UI. Colors come
+ * from ./colors.ts (the single source of truth) — this file only builds the
+ * CSSProperties objects and layout constants derived from them; the band
+ * thresholds mirror lib/risk.ts so a patient card here always agrees with
+ * categorizeRisk().
  */
 
 import type { CSSProperties } from "react";
 import type { RiskCategory } from "../types";
+import {
+  neutral,
+  primary as primaryColor,
+  riskAvatarBg,
+  riskAvatarText,
+  riskBase,
+  riskBorder,
+  riskText,
+  riskTint,
+  trend,
+} from "./colors";
 
 export const COLOR = {
-  high: "oklch(0.55 0.16 25)",
-  moderate: "oklch(0.68 0.13 70)",
-  low: "oklch(0.60 0.09 170)",
-  primary: "oklch(0.52 0.14 285)",
-  primaryHover: "oklch(0.45 0.14 285)",
-  text: "#14161c",
-  muted: "#666d7d",
-  faint: "#8a91a0",
+  high: riskBase("high"),
+  moderate: riskBase("moderate"),
+  low: riskBase("low"),
+  primary: primaryColor.base,
+  primaryHover: primaryColor.hover,
+  text: neutral.ink,
+  muted: neutral.slate,
+  faint: neutral.slateSoft,
 } as const;
 
-const HUE: Record<RiskCategory, number> = { high: 25, moderate: 70, low: 170 };
-
 export function bandColor(category: RiskCategory): string {
-  return COLOR[category];
+  return riskBase(category);
 }
 
 export function bandLabel(category: RiskCategory): string {
@@ -35,14 +45,13 @@ export function displayScore(riskScore: number): number {
 }
 
 export function pillStyle(category: RiskCategory): CSSProperties {
-  const hue = HUE[category];
   return {
     fontFamily: "'IBM Plex Mono', monospace",
     fontSize: 12,
     fontWeight: 600,
     color: bandColor(category),
-    background: `oklch(0.97 0.02 ${hue})`,
-    border: `1px solid oklch(0.89 0.05 ${hue})`,
+    background: riskTint(category),
+    border: `1px solid ${riskBorder(category)}`,
     borderRadius: 6,
     padding: "3px 7px",
     minWidth: 34,
@@ -51,13 +60,12 @@ export function pillStyle(category: RiskCategory): CSSProperties {
 }
 
 export function badgeStyle(category: RiskCategory): CSSProperties {
-  const hue = HUE[category];
   return {
     fontSize: 12.5,
     fontWeight: 600,
-    color: `oklch(0.46 0.13 ${hue})`,
-    background: `oklch(0.97 0.02 ${hue})`,
-    border: `1px solid oklch(0.89 0.05 ${hue})`,
+    color: riskText(category),
+    background: riskTint(category),
+    border: `1px solid ${riskBorder(category)}`,
     borderRadius: 6,
     padding: "3px 8px",
   };
@@ -74,9 +82,8 @@ export function trendChipStyle(direction: "rising" | "stable" | "falling"): CSSP
     padding: "2px 7px",
     whiteSpace: "nowrap",
   };
-  if (direction === "rising") return { ...base, color: "oklch(0.50 0.16 25)", background: "oklch(0.97 0.02 25)" };
-  if (direction === "falling") return { ...base, color: "oklch(0.44 0.09 170)", background: "oklch(0.97 0.02 170)" };
-  return { ...base, color: "#666d7d", background: "#f4f5f8" };
+  const t = trend[direction];
+  return { ...base, color: t.text, background: t.tint };
 }
 
 export function trendLabel(direction: "rising" | "stable" | "falling"): string {
@@ -86,14 +93,13 @@ export function trendLabel(direction: "rising" | "stable" | "falling"): string {
 }
 
 export function avatarStyle(category: RiskCategory, size = 30): CSSProperties {
-  const hue = category === "low" ? 285 : HUE[category];
   return {
     width: size,
     height: size,
     flex: `0 0 ${size}px`,
     borderRadius: 999,
-    background: `oklch(0.95 0.02 ${hue})`,
-    color: `oklch(0.42 0.10 ${hue})`,
+    background: riskAvatarBg(category),
+    color: riskAvatarText(category),
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

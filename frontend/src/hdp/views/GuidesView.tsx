@@ -1,3 +1,4 @@
+import { neutral, primary } from "../colors";
 import "./Views.css";
 
 interface GuideDoc {
@@ -61,9 +62,9 @@ export function GuidesView({ onAsk }: GuidesViewProps) {
                 style={{
                   fontSize: 11,
                   fontWeight: 600,
-                  color: "oklch(0.42 0.14 285)",
-                  background: "oklch(0.96 0.02 285)",
-                  border: "1px solid oklch(0.90 0.03 285)",
+                  color: primary.text,
+                  background: primary.tint,
+                  border: `1px solid ${primary.border}`,
                   borderRadius: 6,
                   padding: "2px 7px",
                 }}
@@ -71,11 +72,11 @@ export function GuidesView({ onAsk }: GuidesViewProps) {
                 {g.org}
               </span>
               <span style={{ flex: 1 }} />
-              <span style={{ fontSize: 10.5, color: "#a8aeba" }}>{g.topic}</span>
+              <span style={{ fontSize: 10.5, color: neutral.slateFaint }}>{g.topic}</span>
             </span>
             <span style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.4 }}>{g.title}</span>
-            <span style={{ fontSize: 12, color: "#8a91a0", lineHeight: 1.5 }}>{g.blurb}</span>
-            <span className="mono" style={{ fontSize: 10, color: "#b6bcc7", wordBreak: "break-word" }}>
+            <span style={{ fontSize: 12, color: neutral.slateSoft, lineHeight: 1.5 }}>{g.blurb}</span>
+            <span className="mono" style={{ fontSize: 10, color: neutral.slateFainter, wordBreak: "break-word" }}>
               {g.filename}
             </span>
             <div>

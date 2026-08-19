@@ -12,6 +12,7 @@ import {
   priorityQueue,
 } from "../aggregate";
 import { avatarStyle, bandColor, COLOR, displayScore, dotStyle, initials, pillStyle, trendChipStyle, trendLabel } from "../theme";
+import { neutral } from "../colors";
 import "./Views.css";
 
 interface DashboardViewProps {
@@ -80,7 +81,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
           </div>
           <div className="hdp-kpi-value">
             <span className="num">{dist.high}</span>
-            <span style={{ fontSize: 12, color: "#8a91a0" }}>{pct(dist.high, dist.total)}</span>
+            <span style={{ fontSize: 12, color: neutral.slateSoft }}>{pct(dist.high, dist.total)}</span>
           </div>
           <div className="hdp-kpi-sub">{risingCount} trending upward</div>
         </div>
@@ -96,7 +97,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
         </div>
         <div className="hdp-kpi">
           <div className="hdp-kpi-label">
-            <span style={dotStyle("#a8aeba")} />
+            <span style={dotStyle(neutral.slateFaint)} />
             DATA GAPS
           </div>
           <div className="hdp-kpi-value">
@@ -116,7 +117,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
             <div style={{ flex: 1 }} />
             <div style={{ display: "flex", gap: 14 }}>
               {(["high", "moderate", "low"] as const).map((k) => (
-                <span key={k} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: "#666d7d" }}>
+                <span key={k} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: neutral.slate }}>
                   <span style={dotStyle(COLOR[k])} />
                   {k === "high" ? "High" : k === "moderate" ? "Moderate" : "Low"}
                 </span>
@@ -142,7 +143,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
               </svg>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 {trend.map((t) => (
-                  <span key={t.label} className="mono" style={{ fontSize: 10.5, color: "#a8aeba" }}>
+                  <span key={t.label} className="mono" style={{ fontSize: 10.5, color: neutral.slateFaint }}>
                     {t.label}
                   </span>
                 ))}
@@ -163,7 +164,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
                   width: 112,
                   height: 112,
                   borderRadius: 999,
-                  background: "#fff",
+                  background: neutral.white,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -172,7 +173,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
                 }}
               >
                 <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: "-0.03em" }}>{pct(dist.high, dist.total)}</div>
-                <div style={{ fontSize: 10.5, color: "#8a91a0", textAlign: "center", lineHeight: 1.3 }}>high risk</div>
+                <div style={{ fontSize: 10.5, color: neutral.slateSoft, textAlign: "center", lineHeight: 1.3 }}>high risk</div>
               </div>
             </div>
           </div>
@@ -181,7 +182,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
               <div key={k} style={{ display: "flex", alignItems: "center", gap: 9 }}>
                 <span style={dotStyle(COLOR[k])} />
                 <span style={{ fontSize: 12.5, flex: 1 }}>{k === "high" ? "High" : k === "moderate" ? "Moderate" : "Low"}</span>
-                <span className="mono" style={{ fontSize: 12.5, color: "#666d7d" }}>
+                <span className="mono" style={{ fontSize: 12.5, color: neutral.slate }}>
                   {dist[k]}
                 </span>
                 <span style={{ fontSize: 12.5, fontWeight: 500, width: 46, textAlign: "right" }}>{pct(dist[k], dist.total)}</span>
@@ -199,7 +200,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
           <div style={{ display: "flex", flexDirection: "column", gap: 9, flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span className="hdp-ai-eyebrow">PANEL SUMMARY</span>
-              <span className="mono" style={{ fontSize: 10.5, color: "#9aa1b0" }}>
+              <span className="mono" style={{ fontSize: 10.5, color: neutral.slateSofter }}>
                 computed from {dist.total} records
               </span>
             </div>
@@ -272,13 +273,13 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
           <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "16px 18px 12px" }}>
             <div className="hdp-panel-title">Recent alerts</div>
             <div style={{ flex: 1 }} />
-            <span className="mono" style={{ fontSize: 10.5, color: "#9aa1b0" }}>
+            <span className="mono" style={{ fontSize: 10.5, color: neutral.slateSofter }}>
               {alerts.length} open
             </span>
           </div>
           {alerts.length === 0 && <div className="hdp-empty">No alerts raised.</div>}
           {alerts.map((a) => (
-            <div key={a.id} style={{ display: "flex", gap: 11, padding: "12px 18px", borderTop: "1px solid #f3f4f7", alignItems: "flex-start" }}>
+            <div key={a.id} style={{ display: "flex", gap: 11, padding: "12px 18px", borderTop: `1px solid ${neutral.rowBorder}`, alignItems: "flex-start" }}>
               <span style={{ ...dotStyle(bandColor(a.category), 7), marginTop: 5 }} />
               <span style={{ display: "flex", flexDirection: "column", gap: 3, flex: 1, minWidth: 0 }}>
                 <span style={{ fontSize: 12.5, lineHeight: 1.45 }}>
@@ -287,7 +288,7 @@ export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollow
               </span>
             </div>
           ))}
-          <div style={{ padding: "12px 18px", borderTop: "1px solid #f3f4f7" }}>
+          <div style={{ padding: "12px 18px", borderTop: `1px solid ${neutral.rowBorder}` }}>
             <a
               href="#alerts"
               onClick={(e) => {

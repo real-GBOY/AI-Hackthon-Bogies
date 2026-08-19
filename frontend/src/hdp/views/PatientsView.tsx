@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { Patient, RiskCategory } from "../../types";
 import { formatFeatureName } from "../aggregate";
 import { avatarStyle, bandLabel, displayScore, initials, pillStyle, trendChipStyle, trendLabel } from "../theme";
+import { neutral } from "../colors";
 import "./Views.css";
 
 interface PatientsViewProps {
@@ -85,23 +86,23 @@ export function PatientsView({ patients, query, onOpenPatient }: PatientsViewPro
               </div>
               <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
                 <span style={pillStyle(r.risk_category)}>{displayScore(r.risk_score)}</span>
-                <span style={{ fontSize: 11.5, color: "#666d7d" }}>{bandLabel(r.risk_category)}</span>
+                <span style={{ fontSize: 11.5, color: neutral.slate }}>{bandLabel(r.risk_category)}</span>
               </span>
               <span>
                 <span style={trendChipStyle(r.trajectory_direction)}>{trendLabel(r.trajectory_direction)}</span>
               </span>
               <span style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                {drivers.length === 0 && <span style={{ fontSize: 11, color: "#a8aeba" }}>None recorded</span>}
+                {drivers.length === 0 && <span style={{ fontSize: 11, color: neutral.slateFaint }}>None recorded</span>}
                 {drivers.map((d) => (
                   <span
                     key={d.feature}
-                    style={{ fontSize: 10.5, background: "#f4f5f8", border: "1px solid #e9ebf0", borderRadius: 5, padding: "2px 6px", color: "#4a5160", whiteSpace: "nowrap" }}
+                    style={{ fontSize: 10.5, background: neutral.surfaceFaint, border: `1px solid ${neutral.chipBorder}`, borderRadius: 5, padding: "2px 6px", color: neutral.chipText, whiteSpace: "nowrap" }}
                   >
                     {formatFeatureName(d.feature)}
                   </span>
                 ))}
               </span>
-              <span style={{ fontSize: 12, color: "#666d7d" }}>{new Date(r.assessment_time).toLocaleDateString()}</span>
+              <span style={{ fontSize: 12, color: neutral.slate }}>{new Date(r.assessment_time).toLocaleDateString()}</span>
               <span style={{ display: "flex", justifyContent: "flex-end" }}>
                 <button
                   className="hdp__btn"

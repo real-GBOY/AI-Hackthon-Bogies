@@ -5,6 +5,7 @@ import type { ServiceHealthStatus } from "../hooks/useServiceHealthCheck";
 import { HdpShell } from "./HdpShell";
 import type { HdpView } from "./types";
 import { deriveAlerts } from "./aggregate";
+import { neutral } from "./colors";
 import { DashboardView } from "./views/DashboardView";
 import { PatientsView } from "./views/PatientsView";
 import { PatientDetailView } from "./views/PatientDetailView";
@@ -74,7 +75,7 @@ export function HdpApp({ patients, dataSource, liveStatus, liveError, onCheckLiv
         />
       )}
       {view === "patient" && !selectedPatient && (
-        <div style={{ fontSize: 13, color: "#8a91a0" }}>No patient selected. Go back to the patient list.</div>
+        <div style={{ fontSize: 13, color: neutral.slateSoft }}>No patient selected. Go back to the patient list.</div>
       )}
       {view === "queue" && <QueueView patients={patients} onOpenPatient={openPatient} />}
       {view === "guides" && <GuidesView onAsk={(q) => askAbout(q, null)} />}

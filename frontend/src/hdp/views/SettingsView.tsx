@@ -1,6 +1,7 @@
 import { RISK_HIGH_BOUNDARY, RISK_LOW_BOUNDARY, TREND_STABLE_BAND, UNCERTAINTY_MARGIN } from "../../lib/risk";
 import { ML_SERVICE_URL, RAG_TIMEOUT_MS } from "../../api/config";
 import type { ServiceHealthStatus } from "../../hooks/useServiceHealthCheck";
+import { neutral, positiveText } from "../colors";
 import "./Views.css";
 
 interface Row {
@@ -68,9 +69,9 @@ export function SettingsView({ liveStatus, liveError, onCheckLive }: SettingsVie
         <button className="hdp__btn" onClick={onCheckLive} disabled={liveStatus === "loading"}>
           {liveStatus === "loading" ? "Checking…" : "Check live ML service"}
         </button>
-        {liveStatus === "success" && <span style={{ fontSize: 12, color: "oklch(0.44 0.09 170)" }}>ML service reachable</span>}
+        {liveStatus === "success" && <span style={{ fontSize: 12, color: positiveText }}>ML service reachable</span>}
         {liveStatus === "error" && (
-          <span style={{ fontSize: 12, color: "#8a91a0" }} title={liveError ?? undefined}>
+          <span style={{ fontSize: 12, color: neutral.slateSoft }} title={liveError ?? undefined}>
             Mock mode · {liveError}
           </span>
         )}
@@ -79,10 +80,10 @@ export function SettingsView({ liveStatus, liveError, onCheckLive }: SettingsVie
       <div className="hdp-grid-2">
         {GROUPS.map((g) => (
           <div key={g.label} className="hdp-table">
-            <div style={{ padding: "13px 18px", borderBottom: "1px solid #eef0f4", fontSize: 13.5, fontWeight: 600 }}>{g.label}</div>
+            <div style={{ padding: "13px 18px", borderBottom: `1px solid ${neutral.borderSoft}`, fontSize: 13.5, fontWeight: 600 }}>{g.label}</div>
             {g.rows.map((r) => (
-              <div key={r.k} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 18px", borderBottom: "1px solid #f3f4f7" }}>
-                <span style={{ fontSize: 12.5, color: "#666d7d", flex: 1 }}>{r.k}</span>
+              <div key={r.k} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 18px", borderBottom: `1px solid ${neutral.rowBorder}` }}>
+                <span style={{ fontSize: 12.5, color: neutral.slate, flex: 1 }}>{r.k}</span>
                 <span className="mono" style={{ fontSize: 12.5, fontWeight: 500, textAlign: "right", wordBreak: "break-word" }}>
                   {r.v}
                 </span>

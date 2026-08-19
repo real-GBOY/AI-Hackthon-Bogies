@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { HdpView } from "./types";
 import { VIEW_TITLE } from "./types";
 import type { PatientSource } from "../hooks/useLivePatients";
+import { cssVars, neutral, positiveText } from "./colors";
 import "./HdpShell.css";
 
 interface NavItem {
@@ -65,7 +66,7 @@ export function HdpShell({
   );
 
   return (
-    <div className="hdp">
+    <div className="hdp" style={cssVars as CSSProperties}>
       <aside className="hdp__sidebar">
         <div className="hdp__brand">
           <div className="hdp__brand-mark">H</div>
@@ -109,7 +110,7 @@ export function HdpShell({
             <span style={{ opacity: 0.5 }}>/</span>
             <span className="hdp__breadcrumb-current">{breadcrumbOverride ?? VIEW_TITLE[view]}</span>
             {dataSource !== "loading" && (
-              <span style={{ fontSize: 11, color: dataSource === "live" ? "oklch(0.44 0.09 170)" : "#a8aeba" }}>
+              <span style={{ fontSize: 11, color: dataSource === "live" ? positiveText : neutral.slateFaint }}>
                 · {dataSource === "live" ? "live backend" : "mock data"}
               </span>
             )}
@@ -122,7 +123,7 @@ export function HdpShell({
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder="Search patients, MRN, or ask a question"
             />
-            <span className="mono" style={{ fontSize: 10, color: "#a8aeba", border: "1px solid #e3e6ec", borderRadius: 4, padding: "1px 4px" }}>
+            <span className="mono" style={{ fontSize: 10, color: neutral.slateFaint, border: `1px solid ${neutral.border}`, borderRadius: 4, padding: "1px 4px" }}>
               ⌘K
             </span>
           </div>

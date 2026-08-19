@@ -1,6 +1,7 @@
 import type { Patient } from "../../types";
 import { deriveAlerts } from "../aggregate";
 import { avatarStyle, badgeStyle, bandColor, bandLabel, dotStyle, initials } from "../theme";
+import { neutral } from "../colors";
 import "./Views.css";
 
 interface AlertsViewProps {
@@ -49,7 +50,7 @@ export function AlertsView({ patients, onOpenPatient }: AlertsViewProps) {
             <span>
               <span style={badgeStyle(a.category)}>{bandLabel(a.category)}</span>
             </span>
-            <span className="mono" style={{ fontSize: 11.5, color: "#8a91a0", textAlign: "right" }}>
+            <span className="mono" style={{ fontSize: 11.5, color: neutral.slateSoft, textAlign: "right" }}>
               {new Date(a.time).toLocaleDateString()}
             </span>
           </div>
