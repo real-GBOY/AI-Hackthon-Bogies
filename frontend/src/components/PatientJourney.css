@@ -120,6 +120,42 @@
   color: var(--text-muted);
 }
 
+.journey-answer__note--error {
+  color: var(--status-critical);
+  font-style: normal;
+}
+
+.journey-source-switch {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  margin-bottom: 14px;
+  border-radius: 9px;
+  background: var(--page);
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.journey-source-tab {
+  font: inherit;
+  font-size: 12.5px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.journey-source-tab:hover {
+  color: var(--text-primary);
+}
+
+.journey-source-tab--active {
+  background: var(--series-blue);
+  color: white;
+}
+
 .journey-answer__note code {
   font-family: ui-monospace, Consolas, monospace;
   font-style: normal;

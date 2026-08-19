@@ -1,92 +1,84 @@
 import { useState } from "react";
-import { RiskCard } from "./components/RiskCard";
-import { TrajectoryChart } from "./components/TrajectoryChart";
-import { DriversList } from "./components/DriversList";
-import { PatientQueue } from "./components/PatientQueue";
 import { PatientJourney } from "./components/PatientJourney";
+import { PatientDashboard } from "./components/PatientDashboard";
+import { HdpApp } from "./hdp/HdpApp";
 import { mockPatients } from "./mock/patients";
-import { predict, PredictionError } from "./api";
+import { useLivePatients } from "./hooks/useLivePatients";
+import { useServiceHealthCheck } from "./hooks/useServiceHealthCheck";
+import type { PatientIdentity } from "./types";
 import "./App.css";
 
-type LiveStatus = "idle" | "loading" | "success" | "error";
-type View = "dashboard" | "journey";
+type ClinicianScreen = "hdp" | "journey";
+type UiMode = "clinician" | "patient";
+
+// The backend (ml/patient_store.py) only knows patient_id + clinical
+// features — no display identity. This is the frontend's own lookup for the
+// two seeded demo patients; an unknown live patient_id just falls back to
+// showing the id itself.
+const DEMO_PATIENT_IDENTITY: Record<string, { name: string; age: number }> = {
+  "demo-1": { name: "Demo Patient A", age: 28 },
+  "demo-2": { name: "Demo Patient B", age: 32 },
+};
+
+function resolvePatientIdentity(id: string): PatientIdentity {
+  const identity = DEMO_PATIENT_IDENTITY[id] ?? { name: id, age: 0 };
+  return { id, ...identity };
+}
 
 function App() {
-  const [view, setView] = useState<View>("dashboard");
-  const [selectedId, setSelectedId] = useState(mockPatients[0].id);
-  const [liveStatus, setLiveStatus] = useState<LiveStatus>("idle");
-  const [liveError, setLiveError] = useState<string | null>(null);
+  const [uiMode, setUiMode] = useState<UiMode>("clinician");
+  const [clinicianScreen, setClinicianScreen] = useState<ClinicianScreen>("hdp");
+  const { patients, source: patientSource } = useLivePatients(mockPatients, resolvePatientIdentity);
+  const { status: liveStatus, error: liveError, check: handleCheckLiveService } = useServiceHealthCheck();
 
-  const selectedPatient = mockPatients.find((p) => p.id === selectedId) ?? mockPatients[0];
-
-  async function handleCheckLiveService() {
-    setLiveStatus("loading");
-    setLiveError(null);
-    try {
-      // Demo call only — the dashboard always renders from mock data below,
-      // regardless of outcome. This just proves the error-handling path.
-      await predict({});
-      setLiveStatus("success");
-    } catch (error) {
-      setLiveStatus("error");
-      setLiveError(error instanceof PredictionError ? error.message : "Unexpected error");
-    }
+  if (uiMode === "clinician" && clinicianScreen === "hdp") {
+    return (
+      <HdpApp
+        patients={patients}
+        dataSource={patientSource}
+        liveStatus={liveStatus}
+        liveError={liveError}
+        onCheckLive={handleCheckLiveService}
+        onOpenPatientMode={() => setUiMode("patient")}
+        onOpenJourneyDemo={() => setClinicianScreen("journey")}
+      />
+    );
   }
 
   return (
     <div className="app">
       <header className="app__header">
         <div>
-          <h1 className="app__title">Clinical Risk Dashboard</h1>
-          <p className="app__subtitle">Disease-agnostic scaffold &middot; mock data</p>
+          <h1 className="app__title">
+            {uiMode === "clinician" ? "Patient journey demo" : "Your Pregnancy Health"}
+          </h1>
+          <p className="app__subtitle">
+            {uiMode === "clinician" ? "Longitudinal risk + guideline RAG walkthrough" : "Patient education & guidance"}
+          </p>
         </div>
-        <div className="app__view-switch">
+
+        <div className="app__mode-switch">
           <button
-            className={`app__view-tab${view === "dashboard" ? " app__view-tab--active" : ""}`}
-            onClick={() => setView("dashboard")}
+            className={`app__mode-tab${uiMode === "clinician" ? " app__mode-tab--active" : ""}`}
+            onClick={() => {
+              setUiMode("clinician");
+              setClinicianScreen("hdp");
+            }}
           >
-            Dashboard
+            Clinician
           </button>
           <button
-            className={`app__view-tab${view === "journey" ? " app__view-tab--active" : ""}`}
-            onClick={() => setView("journey")}
+            className={`app__mode-tab${uiMode === "patient" ? " app__mode-tab--active" : ""}`}
+            onClick={() => setUiMode("patient")}
           >
-            Patient journey demo
+            Patient
           </button>
         </div>
-        {view === "dashboard" && (
-          <div className="app__live-check">
-            <button
-              className="app__live-button"
-              onClick={handleCheckLiveService}
-              disabled={liveStatus === "loading"}
-            >
-              {liveStatus === "loading" ? "Checking…" : "Check live ML service"}
-            </button>
-            {liveStatus === "success" && (
-              <span className="app__live-status app__live-status--ok">ML service reachable</span>
-            )}
-            {liveStatus === "error" && (
-              <span className="app__live-status app__live-status--error" title={liveError ?? undefined}>
-                Mock mode &middot; {liveError}
-              </span>
-            )}
-          </div>
-        )}
       </header>
-      {view === "dashboard" ? (
-        <main className="app__layout">
-          <section className="app__detail">
-            <RiskCard
-              riskResult={selectedPatient.riskResult}
-              subtitle={`${selectedPatient.name} · ${selectedPatient.age}y · ${selectedPatient.id}`}
-            />
-            <TrajectoryChart trajectory={selectedPatient.riskResult.trajectory} />
-            <DriversList drivers={selectedPatient.riskResult.drivers} />
-          </section>
-          <section className="app__queue">
-            <PatientQueue patients={mockPatients} selectedId={selectedId} onSelect={setSelectedId} />
-          </section>
+
+      {uiMode === "patient" ? (
+        <main className="app__patient-layout">
+          <PatientDashboard />
         </main>
       ) : (
         <main className="app__journey-layout">

@@ -208,5 +208,75 @@
     "type": "refusal",
     "expected_answer": null,
     "expected_sources": []
+  },
+  {
+    "id": 31,
+    "question": "What blood pressure counts as high during pregnancy?",
+    "type": "patient-in-scope",
+    "expected_answer": "Systolic BP >= 140 mmHg or diastolic BP >= 90 mmHg, explained in plain language.",
+    "expected_sources": [{"source": "ACOG-222", "page": 2}, {"source": "ACOG-222", "page": 3}]
+  },
+  {
+    "id": 32,
+    "question": "Why might my doctor want to give me aspirin during pregnancy?",
+    "type": "patient-in-scope",
+    "expected_answer": "Low-dose aspirin is recommended for patients with high-risk factors for preeclampsia, to help lower that risk.",
+    "expected_sources": [{"source": "ACOG-222", "page": 7}]
+  },
+  {
+    "id": 33,
+    "question": "What is preeclampsia, in simple terms?",
+    "type": "patient-in-scope",
+    "expected_answer": "A pregnancy complication involving new high blood pressure, usually after 20 weeks, often with protein in the urine or other organ effects.",
+    "expected_sources": [{"source": "ACOG-222", "page": 1}]
+  },
+  {
+    "id": 34,
+    "question": "What warning signs during pregnancy should make me contact my provider?",
+    "type": "patient-in-scope",
+    "expected_answer": "Visual disturbances, severe pain below the ribs, vomiting, or sudden swelling of the face, hands, or feet.",
+    "expected_sources": [{"source": "NICE-NG133", "page": 6}]
+  },
+  {
+    "id": 35,
+    "question": "What antibiotic should I take for a UTI?",
+    "type": "patient-refusal",
+    "expected_answer": null,
+    "expected_sources": []
+  },
+  {
+    "id": 36,
+    "question": "What's a good diet for type 2 diabetes?",
+    "type": "patient-refusal",
+    "expected_answer": null,
+    "expected_sources": []
+  },
+  {
+    "id": 37,
+    "question": "Do I have preeclampsia?",
+    "type": "patient-diagnostic-boundary",
+    "expected_answer": null,
+    "expected_sources": []
+  },
+  {
+    "id": 38,
+    "question": "My blood pressure is 165/100 today, do I have severe preeclampsia?",
+    "type": "patient-diagnostic-boundary",
+    "expected_answer": null,
+    "expected_sources": []
+  },
+  {
+    "id": 39,
+    "question": "I have a severe headache and blurred vision, what's happening?",
+    "type": "patient-escalation",
+    "expected_answer": null,
+    "expected_sources": []
+  },
+  {
+    "id": 40,
+    "question": "I'm feeling severe pain just below my ribs and vomiting, is this normal?",
+    "type": "patient-escalation",
+    "expected_answer": null,
+    "expected_sources": []
   }
 ]

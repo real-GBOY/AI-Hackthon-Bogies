@@ -9,7 +9,16 @@ import {
   sourceFullNames,
   whyRiskChanged,
 } from "../mock/demoJourney";
+import { useRagQuery } from "../hooks/useRagQuery";
 import "./PatientJourney.css";
+
+// Same clinical scenario whyRiskChanged.answer was captured from (see
+// mock/demoJourney.ts's docstring) — asking it live re-runs the identical
+// question through the real pipeline instead of replaying the baked output.
+const LIVE_QUESTION =
+  "A patient at 30 weeks gestation has blood pressure 165/95 with a new severe headache and blurred " +
+  "vision, after having a normal blood pressure of 118/76 at week 24. Why does this indicate increased " +
+  "risk and what should happen next?";
 
 function formatFeatureName(feature: string): string {
   return feature
@@ -33,8 +42,17 @@ function renderAnswerWithCitations(answer: string) {
 
 export function PatientJourney() {
   const [revealed, setRevealed] = useState(false);
+  const [source, setSource] = useState<"captured" | "live">("captured");
+  const { status: liveState, data: liveResult, error: liveError, ask } = useRagQuery();
   const latest = demoAssessments[demoAssessments.length - 1];
   const baseline = demoAssessments[0];
+
+  async function handleSelectSource(next: "captured" | "live") {
+    setSource(next);
+    if (next === "live" && liveState === "idle") {
+      await ask(LIVE_QUESTION, "clinician");
+    }
+  }
 
   return (
     <div className="journey">
@@ -87,24 +105,78 @@ export function PatientJourney() {
           </button>
         ) : (
           <div className="journey-answer">
-            <p className="journey-answer__text">{renderAnswerWithCitations(whyRiskChanged.answer)}</p>
-            <p className="journey-answer__note">
-              Real output from <code>generate.py</code>, grounded in the retrieved guideline passages below —
-              not written by hand.
-            </p>
-            <div className="journey-retrieved">
-              <p className="journey-retrieved__label">Retrieved passages</p>
-              <ul className="journey-retrieved__list">
-                {whyRiskChanged.retrieved.map((r, i) => (
-                  <li key={i}>
-                    <span className="journey-retrieved__src">
-                      {r.source} p.{r.page}
-                    </span>
-                    <span className="journey-retrieved__score">{r.score.toFixed(3)}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="journey-source-switch">
+              <button
+                className={`journey-source-tab${source === "captured" ? " journey-source-tab--active" : ""}`}
+                onClick={() => handleSelectSource("captured")}
+              >
+                Captured (safe)
+              </button>
+              <button
+                className={`journey-source-tab${source === "live" ? " journey-source-tab--active" : ""}`}
+                onClick={() => handleSelectSource("live")}
+              >
+                Live (calls the real backend)
+              </button>
             </div>
+
+            {source === "captured" && (
+              <>
+                <p className="journey-answer__text">{renderAnswerWithCitations(whyRiskChanged.answer)}</p>
+                <p className="journey-answer__note">
+                  Real output from <code>generate.py</code>, grounded in the retrieved guideline passages
+                  below — captured once and baked in for demo reliability (Groq's free-tier rate limits
+                  make a live call during judging risky).
+                </p>
+                <div className="journey-retrieved">
+                  <p className="journey-retrieved__label">Retrieved passages</p>
+                  <ul className="journey-retrieved__list">
+                    {whyRiskChanged.retrieved.map((r, i) => (
+                      <li key={i}>
+                        <span className="journey-retrieved__src">
+                          {r.source} p.{r.page}
+                        </span>
+                        <span className="journey-retrieved__score">{r.score.toFixed(3)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
+
+            {source === "live" && (
+              <>
+                {liveState === "loading" && <p className="journey-answer__note">Calling the live RAG pipeline…</p>}
+                {liveState === "error" && (
+                  <p className="journey-answer__note journey-answer__note--error">
+                    Live call failed ({liveError}) — falling back to the captured answer is recommended for
+                    a live demo.
+                  </p>
+                )}
+                {liveState === "success" && liveResult && (
+                  <>
+                    <p className="journey-answer__text">{renderAnswerWithCitations(liveResult.answer)}</p>
+                    <p className="journey-answer__note">
+                      Live output, just now, from the running <code>/rag/query</code> backend — same
+                      pipeline, called fresh instead of replayed.
+                    </p>
+                    <div className="journey-retrieved">
+                      <p className="journey-retrieved__label">Retrieved passages</p>
+                      <ul className="journey-retrieved__list">
+                        {liveResult.citations.map((c, i) => (
+                          <li key={i}>
+                            <span className="journey-retrieved__src">
+                              {c.source} p.{c.page}
+                            </span>
+                            <span className="journey-retrieved__score">{c.score.toFixed(3)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         )}
       </section>

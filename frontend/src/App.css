@@ -24,6 +24,48 @@
   color: var(--text-muted);
 }
 
+.app__data-source--live {
+  color: var(--status-good);
+}
+
+.app__data-source--mock {
+  color: var(--text-muted);
+}
+
+.app__mode-switch {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+}
+
+.app__mode-tab {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.app__mode-tab:hover {
+  color: var(--text-primary);
+}
+
+.app__mode-tab--active {
+  background: var(--status-good);
+  color: white;
+}
+
+.app__patient-layout {
+  padding-top: 4px;
+}
+
 .app__view-switch {
   display: flex;
   gap: 4px;

@@ -49,14 +49,29 @@ class Uncertainty(BaseModel):
     reason: str | None = None
 
 
-class RiskResult(BaseModel):
-    """The full risk-assessment payload returned by /predict."""
+class DriverDetail(BaseModel):
+    """Extended driver info for models that can cite a source for each
+    factor (e.g. a guideline-grounded rule engine). Optional — a model that
+    can't provide this (like a future trained model without built-in
+    citations) simply leaves RiskResult.driver_details unset."""
 
+    feature: str
+    impact: float
+    description: str
+    source: str
+
+
+class RiskResult(BaseModel):
+    """The full risk-assessment payload returned by /predict and
+    /patients/{id}/trajectory."""
+
+    patient_id: str | None = None
     risk_score: float = Field(ge=0.0, le=1.0)
     risk_category: RiskCategory
     trajectory: list[TrajectoryPoint]
     trajectory_direction: TrajectoryDirection
     drivers: list[Driver]
+    driver_details: list[DriverDetail] | None = None
     uncertainty: Uncertainty
     confidence: float = Field(ge=0.0, le=1.0)
     assessment_time: datetime

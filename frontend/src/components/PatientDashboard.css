@@ -1,0 +1,22 @@
+.patient-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.patient-dashboard__intro {
+  margin-bottom: 4px;
+}
+
+.patient-dashboard__title {
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+
+.patient-dashboard__subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
