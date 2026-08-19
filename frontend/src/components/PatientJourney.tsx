@@ -4,6 +4,7 @@ import { TrajectoryChart } from "./TrajectoryChart";
 import { DriversList } from "./DriversList";
 import { usePatientJourney } from "../hooks/usePatientJourney";
 import { useRagQuery } from "../hooks/useRagQuery";
+import { formatFeatureName, SYMPTOM_LABELS } from "../hdp/aggregate";
 import "./PatientJourney.css";
 
 const JOURNEY_PATIENT_ID = "demo-1";
@@ -26,22 +27,10 @@ const SOURCE_FULL_NAMES: Record<string, string> = {
   "NICE-NG133": "NICE, Hypertension in Pregnancy: Diagnosis and Management",
 };
 
-const SYMPTOM_LABELS: Record<string, string> = {
-  severe_headache: "severe headache",
-  visual_disturbance: "visual disturbance",
-};
-
 function symptomsFromFeatures(features: Record<string, unknown>): string[] {
   return Object.entries(SYMPTOM_LABELS)
     .filter(([key]) => features[key] === true)
     .map(([, label]) => label);
-}
-
-function formatFeatureName(feature: string): string {
-  return feature
-    .split("_")
-    .map((word) => word[0].toUpperCase() + word.slice(1))
-    .join(" ");
 }
 
 function renderAnswerWithCitations(answer: string) {

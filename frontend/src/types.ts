@@ -52,6 +52,8 @@ export interface PatientIdentity {
 
 export interface Patient extends PatientIdentity {
   riskResult: RiskResult;
+  /** Raw longitudinal assessment history (ml/content_routes.py's /patients/{id}/assessments) — undefined until useLivePatients loads it. */
+  assessments?: AssessmentOut[];
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { Patient } from "../../types";
+import type { ClinicianOut, Patient } from "../../types";
 import type { HdpView } from "../types";
 import {
   averageConfidence,
@@ -6,31 +6,49 @@ import {
   deriveAlerts,
   distribution,
   formatFeatureName,
-  leadingDriver,
+  latestAssessment,
   panelTrend,
   pct,
+  previousRiskCategory,
   priorityQueue,
+  riskChangeReasons,
 } from "../aggregate";
-import { avatarStyle, bandColor, COLOR, displayScore, dotStyle, initials, pillStyle, trendChipStyle, trendLabel } from "../theme";
-import { neutral } from "../colors";
+import { avatarStyle, badgeStyle, bandLabel, COLOR, displayScore, dotStyle, initials, trendChipStyle, trendLabel } from "../theme";
+import { neutral, riskBorder, riskText, riskTint } from "../colors";
 import "./Views.css";
 
 interface DashboardViewProps {
   patients: Patient[];
+  clinician: ClinicianOut | null;
   onOpenPatient: (id: string) => void;
   onNavigate: (view: HdpView) => void;
   onAskFollowUp: (question: string) => void;
 }
 
-export function DashboardView({ patients, onOpenPatient, onNavigate, onAskFollowUp }: DashboardViewProps) {
+function greetingForHour(hour: number): string {
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
+
+const RISK_TIERS = [
+  { key: "high" as const, label: "HIGH RISK", sub: "Require immediate review" },
+  { key: "moderate" as const, label: "NEEDS ATTENTION", sub: "Monitor closely" },
+  { key: "low" as const, label: "STABLE", sub: "No immediate concerns" },
+];
+
+export function DashboardView({ patients, clinician, onOpenPatient, onNavigate, onAskFollowUp }: DashboardViewProps) {
   const dist = distribution(patients);
   const highOrHigher = dist.high;
   const trend = panelTrend(patients);
-  const queue = priorityQueue(patients, 6);
+  const priority = priorityQueue(patients, 5);
   const alerts = deriveAlerts(patients).slice(0, 5);
   const gaps = dataGapCount(patients);
   const confidence = averageConfidence(patients);
   const risingCount = patients.filter((p) => p.riskResult.trajectory_direction === "rising").length;
+  const now = new Date();
+  const dateLabel = now.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" });
+  const doctorLabel = clinician?.name ?? "Doctor";
 
   const donutBg = (() => {
     const total = dist.total || 1;

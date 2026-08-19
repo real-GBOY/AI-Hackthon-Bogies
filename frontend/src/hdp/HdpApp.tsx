@@ -88,6 +88,7 @@ export function HdpApp({
       {view === "dashboard" && (
         <DashboardView
           patients={patients}
+          clinician={clinician}
           onOpenPatient={openPatient}
           onNavigate={setView}
           onAskFollowUp={(q) => askAbout(q, null)}

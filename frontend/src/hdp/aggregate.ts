@@ -4,7 +4,7 @@
  * backend data, or the mock fallback) — nothing is invented at this layer.
  */
 
-import type { Patient, RiskCategory } from "../types";
+import type { AssessmentOut, Patient, RiskCategory } from "../types";
 import { categorizeRisk } from "../lib/risk";
 
 export interface RiskDistribution {
@@ -140,4 +140,74 @@ export function formatFeatureName(feature: string): string {
     .split("_")
     .map((w) => w[0]?.toUpperCase() + w.slice(1))
     .join(" ");
+}
+
+/**
+ * Natural-language labels for the boolean symptom flags ml/patient_store.py
+ * seeds on assessment features. Shared between the dashboard's "Why?"
+ * bullets and PatientJourney.tsx's "Today's report" so both read the same
+ * flags the same way instead of keeping two copies in sync.
+ */
+export const SYMPTOM_LABELS: Record<string, string> = {
+  severe_headache: "severe headache",
+  visual_disturbance: "visual disturbance",
+};
+
+export function latestAssessment(patient: Patient): AssessmentOut | null {
+  const list = patient.assessments;
+  return list && list.length > 0 ? list[list.length - 1] : null;
+}
+
+export function baselineAssessment(patient: Patient): AssessmentOut | null {
+  const list = patient.assessments;
+  return list && list.length > 0 ? list[0] : null;
+}
+
+/** The risk band one assessment before the current one, or null if there's no prior point to compare. */
+export function previousRiskCategory(patient: Patient): RiskCategory | null {
+  const traj = patient.riskResult.trajectory;
+  if (traj.length < 2) return null;
+  return categorizeRisk(traj[traj.length - 2].risk);
+}
+
+function trueFlags(features: Record<string, unknown>): Set<string> {
+  return new Set(Object.entries(features).filter(([, v]) => v === true).map(([k]) => k));
+}
+
+/**
+ * Plain-language reasons a patient's risk changed — the dashboard's
+ * "Why?" bullets. Derived entirely from real assessment features: newly-true
+ * symptom flags, plus a blood-pressure delta between the last two
+ * assessments. Falls back to the top driver names (already real, from the
+ * risk model) for a patient with no assessment history to compare.
+ */
+export function riskChangeReasons(patient: Patient, limit = 3): string[] {
+  const reasons: string[] = [];
+  const list = patient.assessments ?? [];
+  const latest = list[list.length - 1];
+  const prev = list[list.length - 2];
+
+  if (latest) {
+    const latestFlags = trueFlags(latest.features);
+    const prevFlags = prev ? trueFlags(prev.features) : new Set<string>();
+    for (const [key, label] of Object.entries(SYMPTOM_LABELS)) {
+      if (latestFlags.has(key) && !prevFlags.has(key)) reasons.push(`New ${label}`);
+    }
+
+    if (prev) {
+      const dSys = Number(latest.features.bp_systolic) - Number(prev.features.bp_systolic);
+      const dDia = Number(latest.features.bp_diastolic) - Number(prev.features.bp_diastolic);
+      if (!Number.isNaN(dSys) && !Number.isNaN(dDia)) {
+        if (dSys >= 10 || dDia >= 5) reasons.push("Blood pressure increased");
+        else if (dSys <= -10 || dDia <= -5) reasons.push("Blood pressure decreased");
+      }
+    }
+  }
+
+  if (reasons.length === 0) {
+    const top = [...patient.riskResult.drivers].sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact)).slice(0, 2);
+    for (const d of top) reasons.push(formatFeatureName(d.feature));
+  }
+
+  return reasons.slice(0, limit);
 }

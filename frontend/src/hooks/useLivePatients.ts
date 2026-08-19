@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPatientProfile, getTrajectory, listPatients, PredictionError } from "../api";
+import { getPatientAssessments, getPatientProfile, getTrajectory, listPatients, PredictionError } from "../api";
 import type { Patient } from "../types";
 
 export type PatientSource = "loading" | "live" | "error";
@@ -25,8 +25,12 @@ export function useLivePatients(): { patients: Patient[]; source: PatientSource;
 
         const results = await Promise.all(
           ids.map(async (id): Promise<Patient> => {
-            const [riskResult, profile] = await Promise.all([getTrajectory(id), getPatientProfile(id)]);
-            return { id, name: profile.name, age: profile.age, riskResult };
+            const [riskResult, profile, assessments] = await Promise.all([
+              getTrajectory(id),
+              getPatientProfile(id),
+              getPatientAssessments(id),
+            ]);
+            return { id, name: profile.name, age: profile.age, riskResult, assessments };
           }),
         );
 
