@@ -183,7 +183,7 @@
   },
   {
     "id": 27,
-    "question": "What's a good diet for type 2 diabetes?",
+    "question": "What is the recommended treatment for asthma?",
     "type": "refusal",
     "expected_answer": null,
     "expected_sources": []
@@ -246,7 +246,7 @@
   },
   {
     "id": 36,
-    "question": "What's a good diet for type 2 diabetes?",
+    "question": "What's the best treatment for my asthma?",
     "type": "patient-refusal",
     "expected_answer": null,
     "expected_sources": []
@@ -276,6 +276,76 @@
     "id": 40,
     "question": "I'm feeling severe pain just below my ribs and vomiting, is this normal?",
     "type": "patient-escalation",
+    "expected_answer": null,
+    "expected_sources": []
+  },
+  {
+    "id": 41,
+    "question": "What are the OGTT diagnostic thresholds for gestational diabetes?",
+    "type": "in-scope",
+    "expected_answer": "Gestational diabetes is diagnosed using a 75-g 2-hour oral glucose tolerance test (OGTT) if the woman has either a fasting plasma glucose level of 5.6 mmol/litre or above, or a 2-hour plasma glucose level of 7.8 mmol/litre or above.",
+    "expected_sources": [{"source": "NICE-NG3-diabetes.pdf", "page": 13}]
+  },
+  {
+    "id": 42,
+    "question": "What is the first-line management for gestational diabetes?",
+    "type": "in-scope",
+    "expected_answer": "First-line management is changes in diet and exercise: refer the woman to a dietitian and advise regular exercise (for example, walking for 30 minutes after a meal). Women with a fasting plasma glucose below 7.0 mmol/litre at diagnosis should be offered a trial of diet and exercise changes; if blood glucose targets are not met within 1 to 2 weeks, offer metformin.",
+    "expected_sources": [{"source": "NICE-NG3-diabetes.pdf", "page": 14}]
+  },
+  {
+    "id": 43,
+    "question": "What are the recommended blood glucose targets for women with gestational diabetes?",
+    "type": "in-scope",
+    "expected_answer": "Capillary plasma glucose below the following targets, if achievable without problematic hypoglycaemia: fasting 5.3 mmol/litre; 1 hour after meals 7.8 mmol/litre; or 2 hours after meals 6.4 mmol/litre. Women taking insulin should keep their glucose level above 4 mmol/litre.",
+    "expected_sources": [{"source": "NICE-NG3-diabetes.pdf", "page": 16}]
+  },
+  {
+    "id": 44,
+    "question": "What is the diagnostic definition of fetal growth restriction (FGR)?",
+    "type": "in-scope",
+    "expected_answer": "FGR is defined as an ultrasonographic estimated fetal weight (EFW) or abdominal circumference (AC) below the 10th percentile for gestational age, using population-based fetal growth references such as Hadlock.",
+    "expected_sources": [{"source": "SMFM-Consult-Series-52-FGR.pdf", "page": 1}]
+  },
+  {
+    "id": 45,
+    "question": "What umbilical artery Doppler surveillance is recommended after FGR is diagnosed?",
+    "type": "in-scope",
+    "expected_answer": "Once FGR is diagnosed, serial umbilical artery Doppler assessment should be performed to assess for deterioration. Weekly umbilical artery Doppler is suggested with decreased end-diastolic velocity (flow ratios greater than the 95th percentile) or with severe FGR (EFW below the 3rd percentile).",
+    "expected_sources": [{"source": "SMFM-Consult-Series-52-FGR.pdf", "page": 5}]
+  },
+  {
+    "id": 46,
+    "question": "How does recommended delivery timing for FGR vary with umbilical artery Doppler severity?",
+    "type": "in-scope",
+    "expected_answer": "Delivery timing is guided by Doppler severity: FGR with reassuring/normal umbilical artery Doppler (EFW 3rd-9th percentile) is delivered at 37 weeks; with absent end-diastolic velocity, deliver at 33-34 weeks; with reversed end-diastolic velocity, deliver at 30-32 weeks. Delivery is also recommended for repetitive late decelerations on fetal heart rate testing after viability, regardless of gestational age.",
+    "expected_sources": [{"source": "SMFM-Consult-Series-52-FGR.pdf", "page": 7}]
+  },
+  {
+    "id": 47,
+    "question": "What is the target blood pressure when treating chronic hypertension in pregnancy?",
+    "type": "in-scope",
+    "expected_answer": "Aim for a target blood pressure of 135/85 mmHg when using medicines to treat chronic hypertension in pregnancy. Offer antihypertensive treatment if sustained systolic BP is 140 mmHg or higher, or sustained diastolic BP is 90 mmHg or higher.",
+    "expected_sources": [{"source": "NICE-NG133", "page": 12}]
+  },
+  {
+    "id": 48,
+    "question": "What laboratory criteria are commonly used to diagnose HELLP syndrome?",
+    "type": "in-scope",
+    "expected_answer": "Lactate dehydrogenase (LDH) elevated to 600 IU/L or more, AST and ALT elevated to more than twice the upper limit of normal, and platelet count less than 100,000 x10^9/L.",
+    "expected_sources": [{"source": "ACOG-222", "page": 3}]
+  },
+  {
+    "id": 49,
+    "question": "What test may help evaluate a diagnostic dilemma of preeclampsia superimposed on chronic hypertension?",
+    "type": "in-scope",
+    "expected_answer": "A uric acid test may be considered to help with diagnostic dilemmas, such as evaluating possible preeclampsia superimposed on chronic hypertension.",
+    "expected_sources": [{"source": "ACOG-222", "page": 7}]
+  },
+  {
+    "id": 50,
+    "question": "What is the treatment for eczema?",
+    "type": "refusal",
     "expected_answer": null,
     "expected_sources": []
   }

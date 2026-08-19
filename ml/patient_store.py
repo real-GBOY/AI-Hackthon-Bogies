@@ -109,3 +109,17 @@ PATIENTS: dict[str, list[Assessment]] = {
         },
     ],
 }
+
+
+class InMemoryPatientStore:
+    """Wraps PATIENTS in the same interface PostgresPatientStore (ml/db.py)
+    exposes, so app.py can select either store at runtime (PATIENT_STORE env
+    var) without branching in every route. This is the default store and the
+    required fallback if Postgres is configured but unreachable — see
+    dbMigration.md. PATIENTS itself is untouched; this only wraps it."""
+
+    def list_patient_ids(self) -> list[str]:
+        return sorted(PATIENTS.keys())
+
+    def get_assessments(self, patient_id: str) -> list[Assessment] | None:
+        return PATIENTS.get(patient_id)

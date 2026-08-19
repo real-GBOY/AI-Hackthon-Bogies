@@ -8,6 +8,8 @@ a real one once a disease/dataset are chosen and a model is trained.
 
 from __future__ import annotations
 
+import logging
+import os
 import random
 from datetime import UTC, datetime
 
@@ -15,7 +17,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from models import RiskModel, RulesetRiskModel
-from patient_store import PATIENTS
+from patient_store import InMemoryPatientStore
 from rag_routes import router as rag_router
 from schemas import (
     Driver,
@@ -41,6 +43,27 @@ app.add_middleware(
 )
 
 app.include_router(rag_router)
+
+logger = logging.getLogger(__name__)
+
+
+def _select_patient_store() -> InMemoryPatientStore:
+    """PATIENT_STORE=postgres to opt into the Postgres-backed store (ml/db.py);
+    default (or anything else) is the in-memory store. If Postgres is
+    requested but unreachable at startup, falls back to in-memory with a
+    warning rather than crashing — see dbMigration.md."""
+    if os.environ.get("PATIENT_STORE") == "postgres":
+        from db import try_create_postgres_store
+
+        store = try_create_postgres_store()
+        if store is not None:
+            logger.info("Using Postgres patient store (PATIENT_STORE=postgres).")
+            return store
+        logger.warning("PATIENT_STORE=postgres requested but unavailable — using in-memory store instead.")
+    return InMemoryPatientStore()
+
+
+_patient_store = _select_patient_store()
 
 # Risk-category boundaries and the margin used to flag "near a boundary"
 # predictions as uncertain. Disease-agnostic placeholders — revisit once a
@@ -115,12 +138,12 @@ def health() -> dict[str, str]:
 
 @app.get("/patients")
 def list_patients() -> list[str]:
-    return sorted(PATIENTS.keys())
+    return _patient_store.list_patient_ids()
 
 
 @app.get("/patients/{patient_id}/trajectory", response_model=RiskResult)
 def patient_trajectory(patient_id: str, model: RiskModel = Depends(get_model)) -> RiskResult:
-    assessments = PATIENTS.get(patient_id)
+    assessments = _patient_store.get_assessments(patient_id)
     if assessments is None:
         raise HTTPException(status_code=404, detail=f"Unknown patient_id: {patient_id!r}")
 

@@ -50,6 +50,10 @@ SOURCE_ALIASES = {
     "ACOG-222": "Gestational_Hypertension_and_Preeclampsia_ACOG_Practice_Bulletin,_Number_222_1605448006.pdf",
     "WHO": "2011c-who_pe_final_1584190059.pdf",
     "NICE-NG133": "hypertension-in-pregnancy-diagnosis-and-management-pdf-66141717671365.pdf",
+    # eval_questions.json references these two by their literal filename rather than
+    # a short label, so alias each to itself to keep FILENAME_TO_LABEL a total map.
+    "NICE-NG3-diabetes.pdf": "NICE-NG3-diabetes.pdf",
+    "SMFM-Consult-Series-52-FGR.pdf": "SMFM-Consult-Series-52-FGR.pdf",
 }
 FILENAME_TO_LABEL = {v: k for k, v in SOURCE_ALIASES.items()}
 
