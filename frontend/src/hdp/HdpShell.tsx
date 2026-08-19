@@ -2,7 +2,8 @@ import type { CSSProperties, ReactNode } from "react";
 import type { HdpView } from "./types";
 import { VIEW_TITLE } from "./types";
 import type { PatientSource } from "../hooks/useLivePatients";
-import { cssVars, neutral, positiveText } from "./colors";
+import type { ClinicianOut } from "../types";
+import { cssVars, neutral, positiveText, riskText } from "./colors";
 import "./HdpShell.css";
 
 interface NavItem {
@@ -36,6 +37,7 @@ interface HdpShellProps {
   onOpenJourneyDemo: () => void;
   breadcrumbOverride?: string;
   dataSource: PatientSource;
+  clinician: ClinicianOut | null;
   children: ReactNode;
 }
 
@@ -51,6 +53,7 @@ export function HdpShell({
   onOpenJourneyDemo,
   breadcrumbOverride,
   dataSource,
+  clinician,
   children,
 }: HdpShellProps) {
   const navButton = (item: NavItem) => (
@@ -95,10 +98,22 @@ export function HdpShell({
         </nav>
 
         <div className="hdp__profile">
-          <div className="hdp__profile-avatar">RO</div>
+          <div className="hdp__profile-avatar">
+            {clinician
+              ? clinician.name
+                  .replace(/^(Dr|Mr|Mrs|Ms)\.?\s+/i, "")
+                  .split(" ")
+                  .map((w) => w[0])
+                  .join("")
+                  .slice(0, 2)
+                  .toUpperCase()
+              : "…"}
+          </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
-            <div className="hdp__profile-name">Dr. Rachel Okonjo</div>
-            <div className="hdp__profile-meta">MFM · Panel of {panelSize}</div>
+            <div className="hdp__profile-name">{clinician?.name ?? "Loading…"}</div>
+            <div className="hdp__profile-meta">
+              {clinician ? `${clinician.role} · Panel of ${panelSize}` : `Panel of ${panelSize}`}
+            </div>
           </div>
         </div>
       </aside>
@@ -110,8 +125,8 @@ export function HdpShell({
             <span style={{ opacity: 0.5 }}>/</span>
             <span className="hdp__breadcrumb-current">{breadcrumbOverride ?? VIEW_TITLE[view]}</span>
             {dataSource !== "loading" && (
-              <span style={{ fontSize: 11, color: dataSource === "live" ? positiveText : neutral.slateFaint }}>
-                · {dataSource === "live" ? "live backend" : "mock data"}
+              <span style={{ fontSize: 11, color: dataSource === "live" ? positiveText : riskText("high") }}>
+                · {dataSource === "live" ? "live backend" : "backend unreachable"}
               </span>
             )}
           </div>

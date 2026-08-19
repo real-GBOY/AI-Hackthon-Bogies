@@ -8,3 +8,4 @@ export { predict, checkHealth } from "./services/predictionService";
 export { queryRag } from "./services/ragService";
 export { listPatients, getTrajectory } from "./services/patientService";
 export type { TrajectoryFetchOptions } from "./services/patientService";
+export { getClinician, getPatientAssessments, getPatientProfile } from "./services/contentService";

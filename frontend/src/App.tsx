@@ -2,40 +2,28 @@ import { useState } from "react";
 import { PatientJourney } from "./components/PatientJourney";
 import { PatientDashboard } from "./components/PatientDashboard";
 import { HdpApp } from "./hdp/HdpApp";
-import { mockPatients } from "./mock/patients";
 import { useLivePatients } from "./hooks/useLivePatients";
 import { useServiceHealthCheck } from "./hooks/useServiceHealthCheck";
-import type { PatientIdentity } from "./types";
+import { useClinician } from "./hooks/useClinician";
 import "./App.css";
 
 type ClinicianScreen = "hdp" | "journey";
 type UiMode = "clinician" | "patient";
 
-// The backend (ml/patient_store.py) only knows patient_id + clinical
-// features — no display identity. This is the frontend's own lookup for the
-// two seeded demo patients; an unknown live patient_id just falls back to
-// showing the id itself.
-const DEMO_PATIENT_IDENTITY: Record<string, { name: string; age: number }> = {
-  "demo-1": { name: "Demo Patient A", age: 28 },
-  "demo-2": { name: "Demo Patient B", age: 32 },
-};
-
-function resolvePatientIdentity(id: string): PatientIdentity {
-  const identity = DEMO_PATIENT_IDENTITY[id] ?? { name: id, age: 0 };
-  return { id, ...identity };
-}
-
 function App() {
   const [uiMode, setUiMode] = useState<UiMode>("clinician");
   const [clinicianScreen, setClinicianScreen] = useState<ClinicianScreen>("hdp");
-  const { patients, source: patientSource } = useLivePatients(mockPatients, resolvePatientIdentity);
+  const { patients, source: patientSource, error: patientError } = useLivePatients();
   const { status: liveStatus, error: liveError, check: handleCheckLiveService } = useServiceHealthCheck();
+  const { clinician } = useClinician();
 
   if (uiMode === "clinician" && clinicianScreen === "hdp") {
     return (
       <HdpApp
         patients={patients}
         dataSource={patientSource}
+        dataError={patientError}
+        clinician={clinician}
         liveStatus={liveStatus}
         liveError={liveError}
         onCheckLive={handleCheckLiveService}

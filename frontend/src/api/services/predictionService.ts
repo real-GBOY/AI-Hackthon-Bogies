@@ -5,10 +5,10 @@ import { isRiskResult } from "../guards";
 
 /**
  * Calls the FastAPI /predict endpoint. Not used by the dashboard's default
- * render path — the UI renders from mock/patients.ts so it keeps working
- * with or without the ML service running. Throws PredictionError on any
- * failure (network, timeout, non-2xx, malformed body) so callers can fall
- * back to mock data.
+ * render path (that reads real per-patient trajectories instead) — this is
+ * what useServiceHealthCheck's "Check live ML service" button calls as a
+ * demo probe. Throws PredictionError on any failure (network, timeout,
+ * non-2xx, malformed body).
  */
 export async function predict(features: Record<string, unknown>): Promise<RiskResult> {
   const response = await fetchPrediction(features);

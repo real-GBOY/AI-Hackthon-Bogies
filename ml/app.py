@@ -16,6 +16,7 @@ from datetime import UTC, datetime
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+from content_routes import create_content_router
 from models import RiskModel, RulesetRiskModel
 from patient_store import InMemoryPatientStore
 from rag_routes import router as rag_router
@@ -64,6 +65,7 @@ def _select_patient_store() -> InMemoryPatientStore:
 
 
 _patient_store = _select_patient_store()
+app.include_router(create_content_router(_patient_store))
 
 # Risk-category boundaries and the margin used to flag "near a boundary"
 # predictions as uncertain. Disease-agnostic placeholders — revisit once a

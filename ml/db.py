@@ -81,6 +81,74 @@ class AssessmentRow(Base):
         }
 
 
+class PatientContentRow(Base):
+    """Mirrors patient_store.PATIENT_CONTENT. JSONB per section rather than
+    normalized tables — same rationale as AssessmentRow.features: this is a
+    flexible content bag per patient, not columns with a fixed clinical
+    schema. All sections nullable except name/age (demo-2 has no authored
+    narrative content)."""
+
+    __tablename__ = "patient_content"
+
+    patient_id: Mapped[str] = mapped_column(ForeignKey("patients.id"), primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    age: Mapped[int] = mapped_column(nullable=False)
+    app_content: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    timeline: Mapped[list[Any] | None] = mapped_column(JSONB, nullable=True)
+    care_plan: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    intake_followup: Mapped[list[Any] | None] = mapped_column(JSONB, nullable=True)
+    captured_qa: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+
+    def to_content(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "age": self.age,
+            "app_content": self.app_content,
+            "timeline": self.timeline,
+            "care_plan": self.care_plan,
+            "intake_followup": self.intake_followup,
+            "captured_qa": self.captured_qa,
+        }
+
+
+class LearnArticleRow(Base):
+    """Mirrors patient_store.LEARN_ARTICLES. Not patient-scoped — global
+    educational content."""
+
+    __tablename__ = "learn_articles"
+
+    slug: Mapped[str] = mapped_column(String, primary_key=True)
+    seq: Mapped[int] = mapped_column(nullable=False)
+    title: Mapped[str] = mapped_column(String, nullable=False)
+    detail: Mapped[str | None] = mapped_column(String, nullable=True)
+    meta: Mapped[str] = mapped_column(String, nullable=False)
+    tone: Mapped[str] = mapped_column(String, nullable=False)
+    featured: Mapped[bool] = mapped_column(nullable=False)
+
+    def to_article(self) -> dict[str, Any]:
+        return {
+            "slug": self.slug,
+            "seq": self.seq,
+            "title": self.title,
+            "detail": self.detail,
+            "meta": self.meta,
+            "tone": self.tone,
+            "featured": self.featured,
+        }
+
+
+class ClinicianRow(Base):
+    """Single-row table — no auth/session system, just a real backend-served
+    identity for this no-login prototype (mirrors patient_store.CLINICIAN)."""
+
+    __tablename__ = "clinicians"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    role: Mapped[str] = mapped_column(String, nullable=False)
+    panel: Mapped[str] = mapped_column(String, nullable=False)
+
+
 class PostgresPatientStore:
     """Same interface as InMemoryPatientStore (patient_store.py) — app.py
     uses either as a drop-in via the PATIENT_STORE env var."""
@@ -99,6 +167,27 @@ class PostgresPatientStore:
                 return None
             return [a.to_assessment() for a in patient.assessments]
 
+    def get_content(self, patient_id: str) -> dict[str, Any] | None:
+        with self._session_factory() as session:
+            row = session.get(PatientContentRow, patient_id)
+            return row.to_content() if row is not None else None
+
+    def list_learn_articles(self) -> list[dict[str, Any]]:
+        with self._session_factory() as session:
+            rows = session.scalars(select(LearnArticleRow).order_by(LearnArticleRow.seq)).all()
+            return [r.to_article() for r in rows]
+
+    def get_learn_article(self, slug: str) -> dict[str, Any] | None:
+        with self._session_factory() as session:
+            row = session.get(LearnArticleRow, slug)
+            return row.to_article() if row is not None else None
+
+    def get_clinician(self) -> dict[str, str]:
+        with self._session_factory() as session:
+            row = session.get(ClinicianRow, "default")
+            assert row is not None, "clinicians table missing its seeded 'default' row"
+            return {"name": row.name, "role": row.role, "panel": row.panel}
+
 
 def _make_engine(database_url: str, connect_timeout: int | None = None):
     connect_args = {"connect_timeout": connect_timeout} if connect_timeout is not None else {}
@@ -113,7 +202,7 @@ def init_db(database_url: str | None = None) -> None:
     """Idempotent: creates tables if absent, inserts demo-1/demo-2 from
     patient_store.PATIENTS (the exact existing seeded data, not a
     hand-copied duplicate) if not already present. Safe to call twice."""
-    from patient_store import PATIENTS  # bare import; see module docstring
+    from patient_store import CLINICIAN, LEARN_ARTICLES, PATIENT_CONTENT, PATIENTS  # bare import; see module docstring
 
     url = database_url or os.environ.get("DATABASE_URL")
     if not url:
@@ -137,6 +226,20 @@ def init_db(database_url: str | None = None) -> None:
                         seq=seq,
                     )
                 )
+
+        for patient_id, content in PATIENT_CONTENT.items():
+            if session.get(PatientContentRow, patient_id) is not None:
+                continue
+            session.add(PatientContentRow(patient_id=patient_id, **content))
+
+        for article in LEARN_ARTICLES:
+            if session.get(LearnArticleRow, article["slug"]) is not None:
+                continue
+            session.add(LearnArticleRow(**article))
+
+        if session.get(ClinicianRow, "default") is None:
+            session.add(ClinicianRow(id="default", **CLINICIAN))
+
         session.commit()
 
 

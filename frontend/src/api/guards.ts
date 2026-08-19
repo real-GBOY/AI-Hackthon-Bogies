@@ -4,7 +4,7 @@
  * reaches components, rather than trusting `response.json()`'s `any`.
  */
 
-import type { RagQueryResponse, RiskResult } from "../types";
+import type { AssessmentOut, ClinicianOut, PatientProfile, RagQueryResponse, RiskResult } from "../types";
 
 export function isRiskResult(value: unknown): value is RiskResult {
   if (typeof value !== "object" || value === null) return false;
@@ -19,6 +19,25 @@ export function isRiskResult(value: unknown): value is RiskResult {
     v.uncertainty !== null &&
     typeof v.confidence === "number"
   );
+}
+
+export function isPatientProfile(value: unknown): value is PatientProfile {
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return typeof v.patient_id === "string" && typeof v.name === "string" && typeof v.age === "number";
+}
+
+export function isAssessmentList(value: unknown): value is AssessmentOut[] {
+  return (
+    Array.isArray(value) &&
+    value.every((a) => typeof a === "object" && a !== null && typeof (a as Record<string, unknown>).assessment_id === "string")
+  );
+}
+
+export function isClinician(value: unknown): value is ClinicianOut {
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return typeof v.name === "string" && typeof v.role === "string" && typeof v.panel === "string";
 }
 
 export function isRagQueryResponse(value: unknown): value is RagQueryResponse {

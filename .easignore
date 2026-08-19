@@ -1,0 +1,8 @@
+RESEARCH/
+__pycache__/
+*.pyc
+.venv/
+*.faiss
+*.pkl
+*.log
+eval_results.json

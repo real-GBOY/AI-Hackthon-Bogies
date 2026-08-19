@@ -1,11 +1,11 @@
 import { useState } from "react";
-import type { Patient } from "../types";
+import type { ClinicianOut, Patient } from "../types";
 import type { PatientSource } from "../hooks/useLivePatients";
 import type { ServiceHealthStatus } from "../hooks/useServiceHealthCheck";
 import { HdpShell } from "./HdpShell";
 import type { HdpView } from "./types";
 import { deriveAlerts } from "./aggregate";
-import { neutral } from "./colors";
+import { neutral, riskText, riskTint } from "./colors";
 import { DashboardView } from "./views/DashboardView";
 import { PatientsView } from "./views/PatientsView";
 import { PatientDetailView } from "./views/PatientDetailView";
@@ -18,6 +18,8 @@ import { AiView } from "./views/AiView";
 interface HdpAppProps {
   patients: Patient[];
   dataSource: PatientSource;
+  dataError: string | null;
+  clinician: ClinicianOut | null;
   liveStatus: ServiceHealthStatus;
   liveError: string | null;
   onCheckLive: () => void;
@@ -25,7 +27,17 @@ interface HdpAppProps {
   onOpenJourneyDemo: () => void;
 }
 
-export function HdpApp({ patients, dataSource, liveStatus, liveError, onCheckLive, onOpenPatientMode, onOpenJourneyDemo }: HdpAppProps) {
+export function HdpApp({
+  patients,
+  dataSource,
+  dataError,
+  clinician,
+  liveStatus,
+  liveError,
+  onCheckLive,
+  onOpenPatientMode,
+  onOpenJourneyDemo,
+}: HdpAppProps) {
   const [view, setView] = useState<HdpView>("dashboard");
   const [query, setQuery] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
@@ -57,7 +69,22 @@ export function HdpApp({ patients, dataSource, liveStatus, liveError, onCheckLiv
       onOpenJourneyDemo={onOpenJourneyDemo}
       breadcrumbOverride={view === "patient" && selectedPatient ? selectedPatient.name : undefined}
       dataSource={dataSource}
+      clinician={clinician}
     >
+      {dataSource === "error" && (
+        <div
+          style={{
+            padding: "10px 16px",
+            borderRadius: 10,
+            background: riskTint("high"),
+            color: riskText("high"),
+            fontSize: 13,
+            marginBottom: 14,
+          }}
+        >
+          Backend unreachable{dataError ? ` — ${dataError}` : ""}. Patient data can't be loaded right now.
+        </div>
+      )}
       {view === "dashboard" && (
         <DashboardView
           patients={patients}
@@ -81,7 +108,7 @@ export function HdpApp({ patients, dataSource, liveStatus, liveError, onCheckLiv
       {view === "guides" && <GuidesView onAsk={(q) => askAbout(q, null)} />}
       {view === "alerts" && <AlertsView patients={patients} onOpenPatient={openPatient} />}
       {view === "settings" && (
-        <SettingsView liveStatus={liveStatus} liveError={liveError} onCheckLive={onCheckLive} />
+        <SettingsView liveStatus={liveStatus} liveError={liveError} onCheckLive={onCheckLive} clinician={clinician} />
       )}
       {view === "ai" && (
         <AiView patients={patients} pendingQuestion={pendingQuestion} onConsumedPending={() => setPendingQuestion(null)} />

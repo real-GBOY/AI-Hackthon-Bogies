@@ -74,3 +74,109 @@ export interface RagQueryResponse {
   escalation_flag: boolean;
   safety_override_applied: boolean;
 }
+
+/** Mirrors ml/schemas.py's Tone enum — used across timeline/care-plan/learn content. */
+export type Tone = "current" | "watch" | "neutral" | "stable";
+
+export interface TodaysTask {
+  title: string;
+  detail: string;
+}
+
+export interface NextAppointment {
+  when: string;
+  detail: string;
+}
+
+/** Mirrors ml/schemas.py's PatientAppContent — content backing the mobile app's home/ask screens. */
+export interface PatientAppContent {
+  first_name: string;
+  full_name: string;
+  initials: string;
+  week: number;
+  due_date: string;
+  status_label: string;
+  todays_task: TodaysTask;
+  next_appointment: NextAppointment;
+  suggested_questions: string[];
+}
+
+export interface TimelineEvent {
+  title: string;
+  detail: string;
+  tone: Tone;
+}
+
+export interface CarePlanAppointment {
+  when: string;
+  detail: string;
+}
+
+export interface CarePlanMonitoringItem {
+  label: string;
+  cadence: string;
+  tone: Tone;
+}
+
+export interface CarePlan {
+  appointments: CarePlanAppointment[];
+  monitoring: CarePlanMonitoringItem[];
+  to_discuss: string[];
+}
+
+export interface IntakeFollowupQA {
+  question: string;
+  answer: string;
+}
+
+export interface ContentCitation {
+  source: string;
+  page: number;
+}
+
+export interface RetrievedPassage extends ContentCitation {
+  score: number;
+}
+
+export interface CapturedQA {
+  question: string;
+  answer: string;
+  citations: ContentCitation[];
+  retrieved: RetrievedPassage[];
+}
+
+/** Mirrors ml/schemas.py's PatientProfile — everything RiskResult doesn't cover. */
+export interface PatientProfile {
+  patient_id: string;
+  name: string;
+  age: number;
+  app_content: PatientAppContent | null;
+  timeline: TimelineEvent[] | null;
+  care_plan: CarePlan | null;
+  intake_followup: IntakeFollowupQA[] | null;
+  captured_qa: CapturedQA | null;
+}
+
+export interface LearnArticleSummary {
+  slug: string;
+  title: string;
+  meta: string;
+  tone: Tone;
+  featured: boolean;
+}
+
+export interface LearnArticleDetail extends LearnArticleSummary {
+  detail: string | null;
+}
+
+export interface ClinicianOut {
+  name: string;
+  role: string;
+  panel: string;
+}
+
+export interface AssessmentOut {
+  assessment_id: string;
+  assessment_time: string;
+  features: Record<string, unknown>;
+}

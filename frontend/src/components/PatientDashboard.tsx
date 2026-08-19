@@ -1,14 +1,10 @@
 import { usePatientTrajectory } from "../hooks/usePatientTrajectory";
-import { mockPatients } from "../mock/patients";
 import { PatientRiskSummary } from "./PatientRiskSummary";
 import { PatientChat } from "./PatientChat";
 import "./PatientDashboard.css";
 
 export function PatientDashboard() {
-  // Real backend not reachable — same justification as the clinician
-  // dashboard's mock fallback (README's "Known housekeeping" section): the
-  // demo must keep working with the ML service down.
-  const { riskResult, status } = usePatientTrajectory(mockPatients[0].riskResult);
+  const { riskResult, status, error } = usePatientTrajectory();
 
   return (
     <div className="patient-dashboard">
@@ -16,12 +12,12 @@ export function PatientDashboard() {
         <h2 className="patient-dashboard__title">Your pregnancy health</h2>
         <p className="patient-dashboard__subtitle">
           {status === "loading" && "Loading your information…"}
-          {status === "live" && "Showing your latest recorded information."}
-          {status === "fallback" && "Showing example information (live service unavailable)."}
+          {status === "success" && "Showing your latest recorded information."}
+          {status === "error" && (error ?? "Couldn't load your information — check your connection and try again.")}
         </p>
       </section>
 
-      <PatientRiskSummary riskResult={riskResult} />
+      {riskResult && <PatientRiskSummary riskResult={riskResult} />}
       <PatientChat />
     </div>
   );

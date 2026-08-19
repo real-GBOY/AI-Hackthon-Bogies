@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { getTrajectory, listPatients, PredictionError } from "../api";
 import type { RiskResult } from "../types";
 
-export type TrajectoryLoadStatus = "loading" | "live" | "fallback";
+export type TrajectoryLoadStatus = "loading" | "success" | "error";
 
 /**
- * Loads the first seeded patient's live trajectory on mount, falling back to
- * `fallback` (mock data) if the backend is unreachable — same fallback
- * justification as the clinician dashboard's useLivePatients.
+ * Loads the first seeded patient's live trajectory on mount. No mock
+ * fallback — same contract as useLivePatients.
  */
-export function usePatientTrajectory(fallback: RiskResult): { riskResult: RiskResult; status: TrajectoryLoadStatus } {
-  const [riskResult, setRiskResult] = useState<RiskResult>(fallback);
+export function usePatientTrajectory(): { riskResult: RiskResult | null; status: TrajectoryLoadStatus; error: string | null } {
+  const [riskResult, setRiskResult] = useState<RiskResult | null>(null);
   const [status, setStatus] = useState<TrajectoryLoadStatus>("loading");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -23,10 +23,13 @@ export function usePatientTrajectory(fallback: RiskResult): { riskResult: RiskRe
         const trajectory = await getTrajectory(ids[0]);
         if (!cancelled) {
           setRiskResult(trajectory);
-          setStatus("live");
+          setStatus("success");
         }
-      } catch {
-        if (!cancelled) setStatus("fallback");
+      } catch (err) {
+        if (!cancelled) {
+          setStatus("error");
+          setError(err instanceof Error ? err.message : "Could not reach the ML service");
+        }
       }
     }
 
@@ -36,5 +39,5 @@ export function usePatientTrajectory(fallback: RiskResult): { riskResult: RiskRe
     };
   }, []);
 
-  return { riskResult, status };
+  return { riskResult, status, error };
 }

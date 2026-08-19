@@ -80,3 +80,120 @@ class RiskResult(BaseModel):
 class PredictRequest(BaseModel):
     features: dict[str, Any] = Field(default_factory=dict)
     patient_id: str | None = None
+
+
+class Tone(str, Enum):
+    CURRENT = "current"
+    WATCH = "watch"
+    NEUTRAL = "neutral"
+    STABLE = "stable"
+
+
+class TodaysTask(BaseModel):
+    title: str
+    detail: str
+
+
+class NextAppointment(BaseModel):
+    when: str
+    detail: str
+
+
+class PatientAppContent(BaseModel):
+    """Content backing the mobile patient app's home/ask screens."""
+
+    first_name: str
+    full_name: str
+    initials: str
+    week: int
+    due_date: str
+    status_label: str
+    todays_task: TodaysTask
+    next_appointment: NextAppointment
+    suggested_questions: list[str]
+
+
+class TimelineEvent(BaseModel):
+    title: str
+    detail: str
+    tone: Tone
+
+
+class CarePlanAppointment(BaseModel):
+    when: str
+    detail: str
+
+
+class CarePlanMonitoringItem(BaseModel):
+    label: str
+    cadence: str
+    tone: Tone
+
+
+class CarePlan(BaseModel):
+    appointments: list[CarePlanAppointment]
+    monitoring: list[CarePlanMonitoringItem]
+    to_discuss: list[str]
+
+
+class IntakeFollowupQA(BaseModel):
+    question: str
+    answer: str
+
+
+class ContentCitation(BaseModel):
+    source: str
+    page: int
+
+
+class RetrievedPassage(ContentCitation):
+    score: float
+
+
+class CapturedQA(BaseModel):
+    """A pre-captured RAG answer for demo reliability — see rag_routes.py's
+    /rag/query for the live equivalent this mirrors the shape of."""
+
+    question: str
+    answer: str
+    citations: list[ContentCitation]
+    retrieved: list[RetrievedPassage]
+
+
+class PatientProfile(BaseModel):
+    """Non-scoring content for a patient — everything RiskResult doesn't
+    cover. Sections are optional: a patient may have no authored narrative
+    content beyond name/age (see patient_store.PATIENT_CONTENT's demo-2)."""
+
+    patient_id: str
+    name: str
+    age: int
+    app_content: PatientAppContent | None = None
+    timeline: list[TimelineEvent] | None = None
+    care_plan: CarePlan | None = None
+    intake_followup: list[IntakeFollowupQA] | None = None
+    captured_qa: CapturedQA | None = None
+
+
+class LearnArticleSummary(BaseModel):
+    slug: str
+    title: str
+    meta: str
+    tone: Tone
+    featured: bool
+
+
+class LearnArticleDetail(LearnArticleSummary):
+    detail: str | None = None
+
+
+class ClinicianOut(BaseModel):
+    name: str
+    role: str
+    panel: str
+
+
+class AssessmentOut(BaseModel):
+    assessment_id: str
+    assessment_time: str
+    features: dict[str, Any]

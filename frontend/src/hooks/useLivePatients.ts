@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
-import { getTrajectory, listPatients, PredictionError } from "../api";
-import type { Patient, PatientIdentity } from "../types";
+import { getPatientProfile, getTrajectory, listPatients, PredictionError } from "../api";
+import type { Patient } from "../types";
 
-export type PatientSource = "loading" | "live" | "mock";
+export type PatientSource = "loading" | "live" | "error";
 
 /**
- * Loads every seeded patient's live trajectory from the backend on mount,
- * falling back to `fallbackPatients` (mock data) if the backend is
- * unreachable or has no seeded patients — same fallback contract as
- * PatientDashboard.tsx's usePatientTrajectory.
+ * Loads every seeded patient's live trajectory + profile from the backend on
+ * mount. No mock fallback — if the backend is unreachable or has no seeded
+ * patients, source is 'error' and callers render an explicit error state
+ * rather than silently showing fake patients.
  */
-export function useLivePatients(
-  fallbackPatients: Patient[],
-  resolveIdentity: (id: string) => PatientIdentity,
-): { patients: Patient[]; source: PatientSource } {
-  const [patients, setPatients] = useState<Patient[]>(fallbackPatients);
+export function useLivePatients(): { patients: Patient[]; source: PatientSource; error: string | null } {
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [source, setSource] = useState<PatientSource>("loading");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -27,8 +25,8 @@ export function useLivePatients(
 
         const results = await Promise.all(
           ids.map(async (id): Promise<Patient> => {
-            const riskResult = await getTrajectory(id);
-            return { ...resolveIdentity(id), riskResult };
+            const [riskResult, profile] = await Promise.all([getTrajectory(id), getPatientProfile(id)]);
+            return { id, name: profile.name, age: profile.age, riskResult };
           }),
         );
 
@@ -36,10 +34,11 @@ export function useLivePatients(
           setPatients(results);
           setSource("live");
         }
-      } catch {
-        // Backend unreachable — keep the fallback data the caller was
-        // already initialized with.
-        if (!cancelled) setSource("mock");
+      } catch (err) {
+        if (!cancelled) {
+          setSource("error");
+          setError(err instanceof Error ? err.message : "Could not reach the ML service");
+        }
       }
     }
 
@@ -49,5 +48,5 @@ export function useLivePatients(
     };
   }, []);
 
-  return { patients, source };
+  return { patients, source, error };
 }

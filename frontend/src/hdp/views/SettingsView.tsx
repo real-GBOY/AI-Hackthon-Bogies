@@ -1,6 +1,7 @@
 import { RISK_HIGH_BOUNDARY, RISK_LOW_BOUNDARY, TREND_STABLE_BAND, UNCERTAINTY_MARGIN } from "../../lib/risk";
 import { ML_SERVICE_URL, RAG_TIMEOUT_MS } from "../../api/config";
 import type { ServiceHealthStatus } from "../../hooks/useServiceHealthCheck";
+import type { ClinicianOut } from "../../types";
 import { neutral, positiveText } from "../colors";
 import "./Views.css";
 
@@ -14,50 +15,56 @@ interface Group {
   rows: Row[];
 }
 
-const GROUPS: Group[] = [
-  {
-    label: "Risk scorer",
-    rows: [
-      { k: "Model type", v: "Guideline-grounded rule engine" },
-      { k: "Low / moderate boundary", v: RISK_LOW_BOUNDARY.toFixed(2) },
-      { k: "Moderate / high boundary", v: RISK_HIGH_BOUNDARY.toFixed(2) },
-      { k: "Uncertainty margin", v: `± ${UNCERTAINTY_MARGIN.toFixed(2)}` },
-      { k: "Stable-trend band", v: `± ${TREND_STABLE_BAND.toFixed(2)}` },
-    ],
-  },
-  {
-    label: "Retrieval & assistant",
-    rows: [
-      { k: "Retrieval top-k", v: "5 chunks" },
-      { k: "Request timeout", v: `${RAG_TIMEOUT_MS / 1000}s` },
-      { k: "Modes supported", v: "Clinician, Patient" },
-      { k: "Grounding", v: "Answers only from retrieved guideline text" },
-    ],
-  },
-  {
-    label: "Account",
-    rows: [
-      { k: "Signed in as", v: "Dr. Rachel Okonjo" },
-      { k: "Role", v: "Maternal-Fetal Medicine" },
-      { k: "Panel", v: "Mercy Women's Health" },
-    ],
-  },
-  {
-    label: "Backend",
-    rows: [
-      { k: "ML service", v: ML_SERVICE_URL },
-      { k: "Endpoints", v: "/predict, /rag/query" },
-    ],
-  },
-];
+function buildGroups(clinician: ClinicianOut | null): Group[] {
+  return [
+    {
+      label: "Risk scorer",
+      rows: [
+        { k: "Model type", v: "Guideline-grounded rule engine" },
+        { k: "Low / moderate boundary", v: RISK_LOW_BOUNDARY.toFixed(2) },
+        { k: "Moderate / high boundary", v: RISK_HIGH_BOUNDARY.toFixed(2) },
+        { k: "Uncertainty margin", v: `± ${UNCERTAINTY_MARGIN.toFixed(2)}` },
+        { k: "Stable-trend band", v: `± ${TREND_STABLE_BAND.toFixed(2)}` },
+      ],
+    },
+    {
+      label: "Retrieval & assistant",
+      rows: [
+        { k: "Retrieval top-k", v: "5 chunks" },
+        { k: "Request timeout", v: `${RAG_TIMEOUT_MS / 1000}s` },
+        { k: "Modes supported", v: "Clinician, Patient" },
+        { k: "Grounding", v: "Answers only from retrieved guideline text" },
+      ],
+    },
+    {
+      label: "Account",
+      rows: clinician
+        ? [
+            { k: "Signed in as", v: clinician.name },
+            { k: "Role", v: clinician.role },
+            { k: "Panel", v: clinician.panel },
+          ]
+        : [{ k: "Signed in as", v: "Loading…" }],
+    },
+    {
+      label: "Backend",
+      rows: [
+        { k: "ML service", v: ML_SERVICE_URL },
+        { k: "Endpoints", v: "/predict, /rag/query" },
+      ],
+    },
+  ];
+}
 
 interface SettingsViewProps {
   liveStatus: ServiceHealthStatus;
   liveError: string | null;
   onCheckLive: () => void;
+  clinician: ClinicianOut | null;
 }
 
-export function SettingsView({ liveStatus, liveError, onCheckLive }: SettingsViewProps) {
+export function SettingsView({ liveStatus, liveError, onCheckLive, clinician }: SettingsViewProps) {
+  const groups = buildGroups(clinician);
   return (
     <div className="hdp-page" style={{ maxWidth: 920 }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -78,7 +85,7 @@ export function SettingsView({ liveStatus, liveError, onCheckLive }: SettingsVie
       </div>
 
       <div className="hdp-grid-2">
-        {GROUPS.map((g) => (
+        {groups.map((g) => (
           <div key={g.label} className="hdp-table">
             <div style={{ padding: "13px 18px", borderBottom: `1px solid ${neutral.borderSoft}`, fontSize: 13.5, fontWeight: 600 }}>{g.label}</div>
             {g.rows.map((r) => (
