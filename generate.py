@@ -23,6 +23,12 @@ from rag import retrieve
 
 T = TypeVar("T")
 _RETRY_WAIT_PATTERN = re.compile(r"try again in ([\d.]+)(ms|s)")
+# Arabic script Unicode blocks (Arabic, Arabic Supplement, Arabic Extended-A,
+# Arabic Presentation Forms A/B) — a plain range check is enough to detect
+# "this question contains Arabic text" without a language-detection dependency.
+_ARABIC_PATTERN = re.compile(
+    "[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]"
+)
 
 
 def call_with_retry(fn: Callable[[], T], max_retries: int = 6) -> T:
@@ -60,6 +66,33 @@ REFUSAL_TEXT = "The provided guidelines do not cover this."
 REFUSAL_TEXT_PATIENT = (
     "I don't have enough guideline information to answer that — please ask your healthcare provider."
 )
+# Pre-written translations, not model output — used only as a deterministic
+# substitute for the exact-match English refusal strings above (see
+# answer_question()), so a refusal is never left to free-form generation.
+REFUSAL_TEXT_AR = "لا تغطي الإرشادات المتوفرة هذا الموضوع."
+REFUSAL_TEXT_PATIENT_AR = (
+    "لا تتوفر لدي معلومات إرشادية كافية للإجابة على ذلك — يُرجى استشارة مقدم الرعاية الصحية الخاص بك."
+)
+REFUSAL_TEXTS_AR: dict[Mode, str] = {
+    "clinician": REFUSAL_TEXT_AR,
+    "patient": REFUSAL_TEXT_PATIENT_AR,
+}
+
+# Appended to both system prompts (unchanged rule numbering above it — see
+# translate_to_english()/answer_question() docstring for why the refusal
+# sentence is carved out as an exception here: it must stay an exact-match
+# English constant for generate_answer()'s `is_refusal` checks to keep
+# working, so the Arabic version of a refusal is substituted afterward as a
+# deterministic constant swap rather than left to free-form generation).
+LANGUAGE_INSTRUCTION = """
+Additional rule: the context passages above are in English. Answer in the SAME language as \
+the user's question — for example, if the question is written in Arabic, write your entire \
+answer in Arabic. Regardless of language, keep every citation exactly as [filename p.X], using \
+the English source filenames exactly as given in the context; never translate, transliterate, \
+or alter a citation. The one exception is the refusal sentence from the rule above: always \
+output it verbatim in English exactly as given, even for a non-English question — do not \
+translate it yourself.
+"""
 
 SYSTEM_PROMPT_CLINICIAN = f"""You are a clinical-guideline assistant for pregnancy hypertension and \
 preeclampsia. You answer ONLY using the numbered context passages provided in the user \
@@ -76,7 +109,7 @@ no bare numbers, no special bracket characters).
 3. If the context passages do not contain the answer to the question, reply with EXACTLY this \
 sentence and nothing else: "{REFUSAL_TEXT}"
 4. Do not guess, speculate, or fill gaps with general medical knowledge. If in doubt, refuse.
-"""
+{LANGUAGE_INSTRUCTION}"""
 
 SYSTEM_PROMPT_PATIENT = f"""You are a patient-education assistant for pregnant patients, answering \
 questions about pregnancy hypertension and preeclampsia. You answer ONLY using the numbered context \
@@ -105,7 +138,7 @@ sentence and nothing else: "{REFUSAL_TEXT_PATIENT}"
 6. Do not guess, speculate, or fill gaps with general medical knowledge. If in doubt, refuse.
 7. If the question describes what sounds like an urgent or concerning symptom, gently encourage the \
 patient to contact their healthcare provider rather than relying solely on this answer.
-"""
+{LANGUAGE_INSTRUCTION}"""
 
 SYSTEM_PROMPTS: dict[Mode, str] = {
     "clinician": SYSTEM_PROMPT_CLINICIAN,
@@ -208,6 +241,66 @@ def generate_answer(question: str, chunks: list[dict], mode: Mode = "clinician")
     return answer
 
 
+def is_arabic_text(text: str) -> bool:
+    return bool(_ARABIC_PATTERN.search(text))
+
+
+def translate_to_english(question: str) -> str:
+    """One Groq call, used only to build an English retrieval query for an
+    Arabic question — retrieve() and the FAISS index never see Arabic text,
+    since the index's embedding model (BAAI/bge-small-en-v1.5) is English-only.
+    The translation is discarded after retrieval; generate_answer() is always
+    called with the user's original-language question, not this translation."""
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        print("GROQ_API_KEY is not set. Set it in your environment before running generate.py.", file=sys.stderr)
+        sys.exit(1)
+
+    client = Groq(api_key=api_key, timeout=30.0)
+    response = call_with_retry(
+        lambda: client.chat.completions.create(
+            model=MODEL_NAME,
+            temperature=0,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Translate the following medical question to English. Output only the translation, nothing else.",
+                },
+                {"role": "user", "content": question},
+            ],
+        )
+    )
+    return response.choices[0].message.content.strip()
+
+
+def answer_question(question: str, mode: Mode = "clinician", k: int = TOP_K) -> tuple[str, list[dict], bool]:
+    """Full pipeline, Arabic-aware: detect the question's language, translate
+    ONLY for retrieval if it's Arabic (rag.py's retrieve(), the FAISS index,
+    and the embedding model are all untouched — they only ever see English
+    text), then generate the answer in the user's original language.
+
+    The English exact-match refusal strings (REFUSAL_TEXT/REFUSAL_TEXT_PATIENT)
+    are what generate_answer()'s internal `is_refusal` safety-guardrail checks
+    key off of, so the model is instructed to always refuse in English and an
+    Arabic question's refusal is substituted with a pre-written Arabic
+    translation afterward — a deterministic constant swap, not free-form
+    generation, so the refusal path stays exactly as reliable as before.
+
+    Returns (answer, chunks, is_refusal) — the third value is the refusal
+    verdict captured BEFORE the Arabic swap, so a caller (e.g. rag_routes.py)
+    doesn't need to re-derive it by comparing against a language-specific
+    string itself.
+    """
+    arabic = is_arabic_text(question)
+    retrieval_query = translate_to_english(question) if arabic else question
+    chunks = retrieve(retrieval_query, k=k)
+    answer = generate_answer(question, chunks, mode=mode)
+    is_refusal = answer.strip() == REFUSAL_TEXTS[mode]
+    if arabic and is_refusal:
+        answer = REFUSAL_TEXTS_AR[mode]
+    return answer, chunks, is_refusal
+
+
 def main() -> None:
     if len(sys.argv) < 2:
         print('Usage: python generate.py "your question" [clinician|patient]', file=sys.stderr)
@@ -221,9 +314,7 @@ def main() -> None:
             sys.exit(1)
         mode = sys.argv[2]  # type: ignore[assignment]
 
-    chunks = retrieve(question, k=TOP_K)
-
-    answer = generate_answer(question, chunks, mode=mode)
+    answer, chunks, _is_refusal = answer_question(question, mode=mode, k=TOP_K)
 
     print("Answer:")
     print(answer)

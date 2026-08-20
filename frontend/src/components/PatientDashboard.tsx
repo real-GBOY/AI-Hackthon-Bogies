@@ -1,9 +1,18 @@
 import { usePatientTrajectory } from "../hooks/usePatientTrajectory";
+import type { RagQueryResponse } from "../types";
+import type { RagQueryStatus } from "../hooks/useRagQuery";
 import { PatientRiskSummary } from "./PatientRiskSummary";
 import { PatientChat } from "./PatientChat";
 import "./PatientDashboard.css";
 
-export function PatientDashboard() {
+interface PatientDashboardProps {
+  chatStatus: RagQueryStatus;
+  chatResult: RagQueryResponse | null;
+  chatError: string | null;
+  chatAsk: (question: string, mode: "patient") => Promise<void>;
+}
+
+export function PatientDashboard({ chatStatus, chatResult, chatError, chatAsk }: PatientDashboardProps) {
   const { riskResult, status, error } = usePatientTrajectory();
 
   return (
@@ -18,7 +27,7 @@ export function PatientDashboard() {
       </section>
 
       {riskResult && <PatientRiskSummary riskResult={riskResult} />}
-      <PatientChat />
+      <PatientChat status={chatStatus} result={chatResult} error={chatError} ask={chatAsk} />
     </div>
   );
 }

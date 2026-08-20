@@ -2,10 +2,10 @@ import type { ClinicianOut, Patient } from "../../types";
 import type { HdpView } from "../types";
 import {
   averageConfidence,
+  buildClinicalQuestion,
   dataGapCount,
   deriveAlerts,
   distribution,
-  formatFeatureName,
   latestAssessment,
   panelTrend,
   pct,
@@ -13,7 +13,7 @@ import {
   priorityQueue,
   riskChangeReasons,
 } from "../aggregate";
-import { avatarStyle, badgeStyle, bandLabel, COLOR, displayScore, dotStyle, initials, trendChipStyle, trendLabel } from "../theme";
+import { avatarStyle, badgeStyle, bandColor, bandLabel, COLOR, dotStyle, initials, trendChipStyle, trendLabel } from "../theme";
 import { neutral, riskBorder, riskText, riskTint } from "../colors";
 import "./Views.css";
 
@@ -74,11 +74,90 @@ export function DashboardView({ patients, clinician, onOpenPatient, onNavigate, 
 
   return (
     <div className="hdp-page">
+      <div className="hdp-welcome">
+        <div style={{ flex: 1, minWidth: 240 }}>
+          <h1 className="hdp-welcome-greeting">
+            {greetingForHour(now.getHours())}, {doctorLabel}
+          </h1>
+          <div className="hdp-welcome-sub">
+            You are currently monitoring {dist.total} patient{dist.total === 1 ? "" : "s"} · {dateLabel}
+          </div>
+        </div>
+        <span className="hdp-live-pill">
+          <span className="hdp-ai-icon-dot" style={{ background: "currentColor" }} />
+          AI monitoring active
+        </span>
+      </div>
+
+      <div className="hdp-risk-tier-grid">
+        {RISK_TIERS.map((tier) => (
+          <div
+            key={tier.key}
+            className="hdp-risk-tier"
+            style={{ background: riskTint(tier.key), borderColor: riskBorder(tier.key) }}
+          >
+            <div className="hdp-risk-tier-head">
+              <span style={dotStyle(COLOR[tier.key], 9)} />
+              <span className="hdp-risk-tier-label" style={{ color: riskText(tier.key) }}>
+                {tier.label}
+              </span>
+            </div>
+            <div className="hdp-risk-tier-count" style={{ color: riskText(tier.key) }}>
+              {dist[tier.key]} <span style={{ fontSize: 14, fontWeight: 500 }}>patient{dist[tier.key] === 1 ? "" : "s"}</span>
+            </div>
+            <div className="hdp-risk-tier-sub">{tier.sub}</div>
+          </div>
+        ))}
+      </div>
+
       <div className="hdp-page-head">
         <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-          <h1 className="hdp-h1">Population risk overview</h1>
-          <div className="hdp-subtle">Hypertensive disorders of pregnancy · rule-based scorer · {patients.length} assessed</div>
+          <div className="hdp-panel-title">Priority Patients</div>
+          <div className="hdp-panel-sub">Patients prioritized by AI based on current risk, recent changes, and clinical indicators.</div>
         </div>
+      </div>
+
+      <div className="hdp-priority-list">
+        {priority.length === 0 && <div className="hdp-empty">No patients on the panel yet.</div>}
+        {priority.map((p) => {
+          const r = p.riskResult;
+          const week = latestAssessment(p)?.features.gestational_week as number | undefined;
+          const reasons = riskChangeReasons(p);
+          const prevCategory = previousRiskCategory(p);
+          return (
+            <div key={p.id} className="hdp-priority-card">
+              <span style={avatarStyle(r.risk_category, 42)}>{initials(p.name)}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: "1 1 260px", minWidth: 220 }}>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 600 }}>{p.name}</div>
+                  {week != null && <div style={{ fontSize: 12, color: neutral.slateSoft }}>{week} weeks pregnant</div>}
+                </div>
+                <span style={{ ...badgeStyle(r.risk_category), alignSelf: "flex-start" }}>{bandLabel(r.risk_category)} risk</span>
+                {reasons.length > 0 && (
+                  <div>
+                    <div style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter, marginBottom: 4 }}>WHY?</div>
+                    <ul className="hdp-priority-card-why">
+                      {reasons.map((reason) => (
+                        <li key={reason}>{reason}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {prevCategory && prevCategory !== r.risk_category && (
+                  <div className="hdp-priority-card-change">
+                    Risk changed: {bandLabel(prevCategory)} → {bandLabel(r.risk_category)}
+                  </div>
+                )}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10, marginLeft: "auto" }}>
+                <span style={trendChipStyle(r.trajectory_direction)}>{trendLabel(r.trajectory_direction)}</span>
+                <button className="hdp__btn" onClick={() => onOpenPatient(p.id)}>
+                  Review Patient →
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="hdp-grid-4">
@@ -224,69 +303,17 @@ export function DashboardView({ patients, clinician, onOpenPatient, onNavigate, 
             </div>
             <div style={{ fontSize: 13.5, lineHeight: 1.6, maxWidth: "88ch" }}>{summary}</div>
           </div>
-          <button className="hdp__btn" onClick={() => onAskFollowUp("Summarize this week's changes across the panel and who I should review first.")}>
-            Ask a follow-up
+          <button
+            className="hdp__btn"
+            disabled={priority.length === 0}
+            onClick={() => priority[0] && onAskFollowUp(buildClinicalQuestion(priority[0]))}
+          >
+            {priority[0] ? `Ask about ${priority[0].name}` : "Ask a follow-up"}
           </button>
         </div>
       )}
 
-      <div className="hdp-grid-2" style={{ gridTemplateColumns: "1.85fr 1fr", alignItems: "start" }}>
-        <div className="hdp-table">
-          <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px 14px" }}>
-            <div>
-              <div className="hdp-panel-title">Priority queue</div>
-              <div className="hdp-panel-sub">Ranked by risk score, then trajectory direction</div>
-            </div>
-            <div style={{ flex: 1 }} />
-            <a
-              href="#queue"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate("queue");
-              }}
-              style={{ fontSize: 12, fontWeight: 500 }}
-            >
-              View all {dist.total}
-            </a>
-          </div>
-          <div className="hdp-table__head" style={{ gridTemplateColumns: "1.6fr 0.9fr 1.5fr 0.8fr" }}>
-            <span>PATIENT</span>
-            <span>RISK</span>
-            <span>LEADING DRIVER</span>
-            <span style={{ textAlign: "right" }}>TREND</span>
-          </div>
-          {queue.length === 0 && <div className="hdp-empty">No patients on the panel yet.</div>}
-          {queue.map((p) => {
-            const r = p.riskResult;
-            const driver = leadingDriver(p);
-            return (
-              <div
-                key={p.id}
-                className="hdp-table__row hdp-table__row--click"
-                style={{ gridTemplateColumns: "1.6fr 0.9fr 1.5fr 0.8fr" }}
-                onClick={() => onOpenPatient(p.id)}
-              >
-                <div className="hdp-avatar-cell">
-                  <span style={avatarStyle(r.risk_category)}>{initials(p.name)}</span>
-                  <span style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
-                    <span className="name">{p.name}</span>
-                    <span className="mrn mono">{p.id}</span>
-                  </span>
-                </div>
-                <span>
-                  <span style={pillStyle(r.risk_category)}>{displayScore(r.risk_score)}</span>
-                </span>
-                <span style={{ fontSize: 12.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {driver ? formatFeatureName(driver) : "—"}
-                </span>
-                <span style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <span style={trendChipStyle(r.trajectory_direction)}>{trendLabel(r.trajectory_direction)}</span>
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <div className="hdp-table">
           <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "16px 18px 12px" }}>
             <div className="hdp-panel-title">Recent alerts</div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ClinicianOut, Patient } from "../types";
 import type { PatientSource } from "../hooks/useLivePatients";
 import type { ServiceHealthStatus } from "../hooks/useServiceHealthCheck";
+import { useAiThreads } from "../hooks/useAiThreads";
 import { HdpShell } from "./HdpShell";
 import type { HdpView } from "./types";
 import { deriveAlerts } from "./aggregate";
@@ -41,7 +42,7 @@ export function HdpApp({
   const [view, setView] = useState<HdpView>("dashboard");
   const [query, setQuery] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
-  const [pendingQuestion, setPendingQuestion] = useState<{ question: string; patientId: string | null } | null>(null);
+  const aiThreads = useAiThreads();
 
   const alertCount = deriveAlerts(patients).length;
   const selectedPatient = selectedPatientId ? patients.find((p) => p.id === selectedPatientId) ?? null : null;
@@ -52,7 +53,8 @@ export function HdpApp({
   }
 
   function askAbout(question: string, patientId: string | null) {
-    setPendingQuestion({ question, patientId });
+    aiThreads.setContextPatientId(patientId);
+    aiThreads.submit(question, patientId);
     setView("ai");
   }
 
@@ -64,7 +66,7 @@ export function HdpApp({
       panelSize={patients.length}
       query={query}
       onQueryChange={setQuery}
-      onNewAssessment={() => askAbout("I'd like to start a new risk assessment — what patient information do you need from me?", null)}
+      onNewAssessment={() => askAbout("What clinical risk factors should be assessed when screening a pregnant patient for preeclampsia risk?", null)}
       onOpenPatientMode={onOpenPatientMode}
       onOpenJourneyDemo={onOpenJourneyDemo}
       breadcrumbOverride={view === "patient" && selectedPatient ? selectedPatient.name : undefined}
@@ -111,9 +113,7 @@ export function HdpApp({
       {view === "settings" && (
         <SettingsView liveStatus={liveStatus} liveError={liveError} onCheckLive={onCheckLive} clinician={clinician} />
       )}
-      {view === "ai" && (
-        <AiView patients={patients} pendingQuestion={pendingQuestion} onConsumedPending={() => setPendingQuestion(null)} />
-      )}
+      {view === "ai" && <AiView patients={patients} {...aiThreads} />}
     </HdpShell>
   );
 }

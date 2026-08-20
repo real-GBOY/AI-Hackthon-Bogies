@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { Patient } from "../../types";
-import { assessmentLabel, formatFeatureName } from "../aggregate";
+import { assessmentLabel, baselineAssessment, buildClinicalQuestion, currentSymptoms, formatFeatureName, latestAssessment, riskChangeReasons, SYMPTOM_LABELS } from "../aggregate";
 import { avatarStyle, badgeStyle, bandColor, bandLabel, COLOR, displayScore, dotStyle, initials, trendChipStyle, trendLabel } from "../theme";
 import { neutral, primary, riskAreaFill, riskZoneFill } from "../colors";
 import { RISK_HIGH_BOUNDARY, RISK_LOW_BOUNDARY, categorizeRisk } from "../../lib/risk";
@@ -56,6 +56,10 @@ export function PatientDetailView({ patient, onBack, onAskAboutPatient }: Patien
   ];
 
   const sortedDrivers = useMemo(() => [...r.drivers].sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact)), [r.drivers]);
+  // Zero-impact drivers are the ruleset model's own "nothing to explain"
+  // placeholder for a patient with no active drivers (ml/models/ruleset.py) —
+  // real, but not a "key driver", so the concise AI summary excludes them.
+  const activeDrivers = useMemo(() => sortedDrivers.filter((d) => Math.abs(d.impact) > 0), [sortedDrivers]);
   const maxAbsImpact = Math.max(...sortedDrivers.map((d) => Math.abs(d.impact)), 0.01);
   const driverDetail = (feature: string) => r.driver_details?.find((d) => d.feature === feature) ?? null;
 
@@ -81,6 +85,39 @@ export function PatientDetailView({ patient, onBack, onAskAboutPatient }: Patien
 
   const followUpCadence =
     r.risk_category === "high" ? "Weekly review, twice-weekly BP monitoring" : r.risk_category === "moderate" ? "Review at next scheduled visit, weekly BP monitoring" : "Routine antenatal schedule";
+
+  // AI Clinical Summary — every value below is derived from real data already
+  // on this page (trajectory bands, driver_details, assessment features),
+  // never invented. "AI identified…" framing throughout, never "diagnosed".
+  const latestA = latestAssessment(patient);
+  const baselineA = baselineAssessment(patient);
+  const symptoms = currentSymptoms(patient);
+  const changeReasons = riskChangeReasons(patient);
+  const bandPath = useMemo(() => {
+    const path: string[] = [];
+    for (const t of traj) {
+      const cat = bandLabel(categorizeRisk(t.risk));
+      if (path[path.length - 1] !== cat) path.push(cat);
+    }
+    return path;
+  }, [traj]);
+  /** "BP 145/92 · severe headache" for one assessment index — real feature values, used to enrich both timeline renderings below. */
+  function assessmentBrief(i: number): string | null {
+    const a = patient.assessments?.[i];
+    if (!a) return null;
+    const bp = `BP ${a.features.bp_systolic}/${a.features.bp_diastolic}`;
+    const flags = Object.entries(SYMPTOM_LABELS)
+      .filter(([key]) => a.features[key] === true)
+      .map(([, label]) => label);
+    return flags.length > 0 ? `${bp} · ${flags.join(", ")}` : `${bp} · no symptoms reported`;
+  }
+
+  const recommendedAttention =
+    r.risk_category === "high"
+      ? `Immediate review recommended${r.trajectory_direction === "rising" ? " — risk is elevated and actively rising" : ""}.`
+      : r.risk_category === "moderate"
+        ? "Monitor closely — review at the next scheduled visit."
+        : "No immediate concerns — continue routine antenatal follow-up.";
 
   const chart = (height: number, interactive: boolean) => (
     <div style={{ position: "relative", height }}>
@@ -153,6 +190,83 @@ export function PatientDetailView({ patient, onBack, onAskAboutPatient }: Patien
         {r.uncertainty.flag && (
           <span style={{ fontSize: 11, color: neutral.slateSoft, maxWidth: 220 }}>⚠ {r.uncertainty.reason}</span>
         )}
+      </div>
+
+      <div className="hdp-ai-panel" style={{ flexDirection: "column", gap: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+          <div className="hdp-ai-icon">
+            <span className="hdp-ai-icon-dot" />
+          </div>
+          <span className="hdp-ai-eyebrow">AI CLINICAL SUMMARY</span>
+        </div>
+
+        <div className="hdp-grid-2" style={{ gap: 18 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>RISK CHANGES</span>
+            <span style={{ fontSize: 13, lineHeight: 1.5 }}>
+              {bandPath.length > 1
+                ? `Risk changed ${bandPath.join(" → ")} over ${n} assessment${n === 1 ? "" : "s"}.`
+                : "No risk-band change recorded across the assessment history yet."}
+            </span>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>LATEST MEASUREMENTS</span>
+            <span style={{ fontSize: 13, lineHeight: 1.5 }}>
+              {latestA && baselineA && latestA !== baselineA
+                ? `BP ${baselineA.features.bp_systolic}/${baselineA.features.bp_diastolic} at baseline → ${latestA.features.bp_systolic}/${latestA.features.bp_diastolic} today.`
+                : latestA
+                  ? `BP ${latestA.features.bp_systolic}/${latestA.features.bp_diastolic} (first recorded assessment).`
+                  : "No measurements recorded yet."}
+            </span>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>LATEST SYMPTOMS</span>
+            {symptoms.length > 0 ? (
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, lineHeight: 1.5, display: "flex", flexDirection: "column", gap: 2 }}>
+                {symptoms.map((s) => (
+                  <li key={s}>{s[0].toUpperCase() + s.slice(1)}</li>
+                ))}
+              </ul>
+            ) : (
+              <span style={{ fontSize: 13, color: neutral.slateSofter }}>No symptoms currently reported.</span>
+            )}
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>KEY CLINICAL DRIVERS</span>
+            {activeDrivers.length > 0 ? (
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, lineHeight: 1.5, display: "flex", flexDirection: "column", gap: 2 }}>
+                {activeDrivers.slice(0, 3).map((d) => (
+                  <li key={d.feature}>{formatFeatureName(d.feature)}</li>
+                ))}
+              </ul>
+            ) : (
+              <span style={{ fontSize: 13, color: neutral.slateSofter }}>No active risk factors currently identified.</span>
+            )}
+          </div>
+        </div>
+
+        {changeReasons.length > 0 && (
+          <div style={{ fontSize: 11.5, color: neutral.slateSoft }}>
+            AI identified increased risk based on: {changeReasons.join(", ").toLowerCase()}.
+          </div>
+        )}
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", borderTop: `1px solid ${primary.border}`, paddingTop: 12 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>RECOMMENDED ATTENTION</span>
+            <span style={{ fontSize: 13, fontWeight: 500 }}>{recommendedAttention}</span>
+          </div>
+          <div style={{ flex: 1 }} />
+          <button
+            className="hdp__btn"
+            onClick={() => onAskAboutPatient(patient.id, buildClinicalQuestion(patient))}
+          >
+            Ask about this patient
+          </button>
+        </div>
       </div>
 
       <div className="hdp-tabs">
@@ -240,29 +354,6 @@ export function PatientDetailView({ patient, onBack, onAskAboutPatient }: Patien
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div className="hdp-ai-panel hdp-ai-panel--tight">
-              <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-                <div className="hdp-ai-icon hdp-ai-icon--sm">
-                  <span className="hdp-ai-icon-dot" />
-                </div>
-                <span className="hdp-ai-eyebrow">WHY THIS SCORE</span>
-              </div>
-              <div style={{ fontSize: 13, lineHeight: 1.55 }}>
-                {topDriver
-                  ? `${formatFeatureName(topDriver.feature)} is the leading contributor, placing this patient in the ${bandLabel(r.risk_category)} band. The trajectory is currently ${r.trajectory_direction}.`
-                  : `No dominant driver recorded. Risk is currently ${bandLabel(r.risk_category)} and ${r.trajectory_direction}.`}
-              </div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <button
-                  className="hdp__btn"
-                  style={{ padding: "6px 10px", fontSize: 11.5 }}
-                  onClick={() => onAskAboutPatient(patient.id, `Why is ${patient.name} (${patient.id}) currently ${bandLabel(r.risk_category)} risk, and what does the guidance recommend?`)}
-                >
-                  Ask about this patient
-                </button>
-              </div>
-            </div>
-
             <div className="hdp-panel">
               <div className="hdp-panel-title">Timeline</div>
               <div style={{ display: "flex", flexDirection: "column" }}>
@@ -284,6 +375,11 @@ export function PatientDetailView({ patient, onBack, onAskAboutPatient }: Patien
                         <span style={{ fontSize: 11, color: neutral.slateSoft }}>
                           {p.label} · score {p.score} ({bandLabel(categorizeRisk(traj[i].risk))})
                         </span>
+                        {assessmentBrief(i) && (
+                          <span className="mono" style={{ fontSize: 10.5, color: neutral.slateFaint }}>
+                            {assessmentBrief(i)}
+                          </span>
+                        )}
                       </span>
                     </div>
                   );
@@ -485,6 +581,11 @@ export function PatientDetailView({ patient, onBack, onAskAboutPatient }: Patien
                     <span style={{ fontSize: 12, color: neutral.slate, lineHeight: 1.5 }}>
                       {prev ? `${p.score - prev.score >= 0 ? "+" : ""}${p.score - prev.score} pts since ${prev.label}` : "First recorded assessment"}
                     </span>
+                    {assessmentBrief(i) && (
+                      <span className="mono" style={{ fontSize: 11, color: neutral.slateSoft }}>
+                        {assessmentBrief(i)}
+                      </span>
+                    )}
                   </span>
                 </div>
               );

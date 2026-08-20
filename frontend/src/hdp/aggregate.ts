@@ -6,6 +6,7 @@
 
 import type { AssessmentOut, Patient, RiskCategory } from "../types";
 import { categorizeRisk } from "../lib/risk";
+import { bandLabel } from "./theme";
 
 export interface RiskDistribution {
   low: number;
@@ -33,7 +34,6 @@ export interface DerivedAlert {
   category: RiskCategory;
   time: string;
 }
-
 /**
  * Alerts aren't a backend concept yet — this derives them from the same
  * signals a clinician would actually want flagged: an uncertainty flag
@@ -174,6 +174,46 @@ function trueFlags(features: Record<string, unknown>): Set<string> {
   return new Set(Object.entries(features).filter(([, v]) => v === true).map(([k]) => k));
 }
 
+/** All symptom flags currently true on the latest assessment (not just newly-true ones — see riskChangeReasons for the delta version). */
+export function currentSymptoms(patient: Patient): string[] {
+  const latest = latestAssessment(patient);
+  if (!latest) return [];
+  const flags = trueFlags(latest.features);
+  return Object.entries(SYMPTOM_LABELS)
+    .filter(([key]) => flags.has(key))
+    .map(([, label]) => label);
+}
+
+/**
+ * Builds a real clinical-scenario question for the RAG assistant — no
+ * patient name/ID, since the guideline corpus (ACOG/NICE/WHO PDFs) has no
+ * concept of a named patient and the retrieval+grounding pipeline correctly
+ * refuses a question it can't answer from indexed text (see rag_routes.py /
+ * generate.py's strict grounding rule). Mirrors the scenario phrasing
+ * PatientJourney.tsx's LIVE_QUESTION already uses successfully — described
+ * entirely in terms of real BP/symptom/gestation data, which the guidelines
+ * do cover.
+ */
+export function buildClinicalQuestion(patient: Patient): string {
+  const latest = latestAssessment(patient);
+  const baseline = baselineAssessment(patient);
+  const week = latest?.features.gestational_week as number | undefined;
+  const symptoms = currentSymptoms(patient);
+
+  if (!latest) {
+    return `A pregnant patient's risk is currently assessed as ${bandLabel(patient.riskResult.risk_category).toLowerCase()}. What clinical guidance applies at this risk level, and what should be monitored going forward?`;
+  }
+
+  const parts: string[] = [`A patient${week != null ? ` at ${week} weeks gestation` : ""} has blood pressure ${latest.features.bp_systolic}/${latest.features.bp_diastolic}`];
+  if (symptoms.length > 0) parts.push(`with ${symptoms.join(" and ")}`);
+  if (baseline && baseline !== latest) {
+    parts.push(`after having blood pressure ${baseline.features.bp_systolic}/${baseline.features.bp_diastolic} at an earlier assessment`);
+  }
+
+  const category = bandLabel(patient.riskResult.risk_category).toLowerCase();
+  return `${parts.join(", ")}. Why does this indicate ${category} risk, and what does clinical guidance recommend?`;
+}
+
 /**
  * Plain-language reasons a patient's risk changed — the dashboard's
  * "Why?" bullets. Derived entirely from real assessment features: newly-true
@@ -205,7 +245,13 @@ export function riskChangeReasons(patient: Patient, limit = 3): string[] {
   }
 
   if (reasons.length === 0) {
-    const top = [...patient.riskResult.drivers].sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact)).slice(0, 2);
+    // Zero-impact entries are the ruleset model's own "nothing to explain"
+    // placeholder (see ml/models/ruleset.py) for a patient with no active
+    // drivers — not a real reason, so they're excluded rather than shown.
+    const top = [...patient.riskResult.drivers]
+      .filter((d) => Math.abs(d.impact) > 0)
+      .sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact))
+      .slice(0, 2);
     for (const d of top) reasons.push(formatFeatureName(d.feature));
   }
 

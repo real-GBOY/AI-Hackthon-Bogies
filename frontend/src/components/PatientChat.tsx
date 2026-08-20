@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useRagQuery } from "../hooks/useRagQuery";
+import type { RagQueryResponse } from "../types";
+import type { RagQueryStatus } from "../hooks/useRagQuery";
 import "./PatientChat.css";
 
 function renderAnswer(answer: string) {
@@ -18,10 +19,16 @@ function renderAnswer(answer: string) {
   });
 }
 
-export function PatientChat() {
+interface PatientChatProps {
+  status: RagQueryStatus;
+  result: RagQueryResponse | null;
+  error: string | null;
+  ask: (question: string, mode: "patient") => Promise<void>;
+}
+
+export function PatientChat({ status, result, error, ask }: PatientChatProps) {
   const [question, setQuestion] = useState("");
   const [showSources, setShowSources] = useState(false);
-  const { status, data: result, error, ask } = useRagQuery();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

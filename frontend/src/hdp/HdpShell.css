@@ -324,6 +324,11 @@
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.02em;
+  /* Explicit, not inherited: index.css's global `h1{color:var(--text-primary)}`
+     flips to white under prefers-color-scheme:dark, but this dashboard is a
+     fixed light theme (see colors.ts) that never accounts for that — without
+     this the heading renders white-on-white on a system in dark mode. */
+  color: var(--hdp-text);
 }
 
 .hdp-subtle {

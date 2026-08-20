@@ -5,6 +5,7 @@ import { HdpApp } from "./hdp/HdpApp";
 import { useLivePatients } from "./hooks/useLivePatients";
 import { useServiceHealthCheck } from "./hooks/useServiceHealthCheck";
 import { useClinician } from "./hooks/useClinician";
+import { useRagQuery } from "./hooks/useRagQuery";
 import "./App.css";
 
 type ClinicianScreen = "hdp" | "journey";
@@ -16,6 +17,11 @@ function App() {
   const { patients, source: patientSource, error: patientError } = useLivePatients();
   const { status: liveStatus, error: liveError, check: handleCheckLiveService } = useServiceHealthCheck();
   const { clinician } = useClinician();
+  // Instantiated here (above the uiMode branch below) rather than inside
+  // PatientChat, so switching to Clinician mode and back doesn't wipe
+  // whatever answer the patient was just shown — same unmount pitfall as
+  // HdpApp's Ask AI history, fixed the same way.
+  const patientChat = useRagQuery("patient-chat");
 
   if (uiMode === "clinician" && clinicianScreen === "hdp") {
     return (
@@ -66,7 +72,12 @@ function App() {
 
       {uiMode === "patient" ? (
         <main className="app__patient-layout">
-          <PatientDashboard />
+          <PatientDashboard
+            chatStatus={patientChat.status}
+            chatResult={patientChat.data}
+            chatError={patientChat.error}
+            chatAsk={patientChat.ask}
+          />
         </main>
       ) : (
         <main className="app__journey-layout">

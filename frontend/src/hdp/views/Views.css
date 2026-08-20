@@ -294,6 +294,9 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   margin: 0;
+  /* See .hdp-h1 in HdpShell.css — same fixed-light-theme vs.
+     dark-mode-reactive global color fix. */
+  color: var(--hdp-text);
 }
 
 .hdp-welcome-sub {

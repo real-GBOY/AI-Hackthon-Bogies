@@ -23,11 +23,9 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from generate import (  # noqa: E402
     DIAGNOSTIC_SAFETY_FALLBACK,
-    REFUSAL_TEXTS,
+    answer_question,
     detect_escalation_signal,
-    generate_answer,
 )
-from rag import retrieve  # noqa: E402
 
 router = APIRouter()
 
@@ -57,9 +55,11 @@ class RagQueryResponse(BaseModel):
 
 @router.post("/rag/query", response_model=RagQueryResponse)
 def rag_query(request: RagQueryRequest) -> RagQueryResponse:
-    chunks = retrieve(request.question, k=TOP_K)
-    answer = generate_answer(request.question, chunks, mode=request.mode)
-    refused = answer.strip() == REFUSAL_TEXTS[request.mode]
+    # answer_question() is Arabic-aware: it translates the query for
+    # retrieval only (rag.py's retrieve()/FAISS index/embedding model are
+    # untouched — always English), then answers in the question's own
+    # language. English questions behave exactly as before.
+    answer, chunks, refused = answer_question(request.question, mode=request.mode, k=TOP_K)
 
     # Both flags are only meaningful in patient mode — the safety guardrails
     # in generate.py only run for mode="patient" (see generate_answer()).

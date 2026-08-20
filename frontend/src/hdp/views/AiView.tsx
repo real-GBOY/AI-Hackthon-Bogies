@@ -1,23 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import type { Patient, RagQueryResponse } from "../../types";
-import { queryRag } from "../../api";
+import { useState } from "react";
+import type { Patient } from "../../types";
+import type { AiThread } from "../../hooks/useAiThreads";
 import { COLOR } from "../theme";
 import { evidence, neutral, primary, shadow } from "../colors";
 import "./Views.css";
 
-interface Thread {
-  id: number;
-  question: string;
-  patientId: string | null;
-  status: "loading" | "success" | "error";
-  data: RagQueryResponse | null;
-  error: string | null;
-}
-
 interface AiViewProps {
   patients: Patient[];
-  pendingQuestion: { question: string; patientId: string | null } | null;
-  onConsumedPending: () => void;
+  threads: AiThread[];
+  activeId: number | null;
+  setActiveId: (id: number | null) => void;
+  contextPatientId: string | null;
+  setContextPatientId: (id: string | null) => void;
+  submit: (question: string, patientId: string | null) => Promise<void>;
+  startNew: () => void;
 }
 
 function renderAnswer(answer: string) {
@@ -37,41 +33,15 @@ function renderAnswer(answer: string) {
   });
 }
 
-let threadId = 0;
-
-export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewProps) {
-  const [threads, setThreads] = useState<Thread[]>([]);
-  const [activeId, setActiveId] = useState<number | null>(null);
+export function AiView({ patients, threads, activeId, setActiveId, contextPatientId, setContextPatientId, submit, startNew }: AiViewProps) {
   const [input, setInput] = useState("");
-  const [contextPatientId, setContextPatientId] = useState<string | null>(null);
-  const busyRef = useRef(false);
 
-  async function submit(question: string, patientId: string | null) {
+  async function handleSubmit(question: string, patientId: string | null) {
     const trimmed = question.trim();
     if (!trimmed) return;
-    const id = ++threadId;
-    setThreads((prev) => [...prev, { id, question: trimmed, patientId, status: "loading", data: null, error: null }]);
-    setActiveId(id);
     setInput("");
-    busyRef.current = true;
-    try {
-      const response = await queryRag(trimmed, "clinician");
-      setThreads((prev) => prev.map((t) => (t.id === id ? { ...t, status: "success", data: response } : t)));
-    } catch (err) {
-      setThreads((prev) => prev.map((t) => (t.id === id ? { ...t, status: "error", error: err instanceof Error ? err.message : "Unexpected error" } : t)));
-    } finally {
-      busyRef.current = false;
-    }
+    await submit(trimmed, patientId);
   }
-
-  useEffect(() => {
-    if (pendingQuestion && !busyRef.current) {
-      setContextPatientId(pendingQuestion.patientId);
-      submit(pendingQuestion.question, pendingQuestion.patientId);
-      onConsumedPending();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingQuestion]);
 
   const active = threads.find((t) => t.id === activeId) ?? threads[threads.length - 1] ?? null;
   const contextPatient = contextPatientId ? patients.find((p) => p.id === contextPatientId) ?? null : null;
@@ -83,10 +53,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
           <span style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.06em", color: neutral.slateSofter }}>HISTORY</span>
           <div style={{ flex: 1 }} />
           <button
-            onClick={() => {
-              setActiveId(null);
-              setContextPatientId(null);
-            }}
+            onClick={startNew}
             style={{ border: 0, background: "transparent", fontSize: 11.5, fontWeight: 500, color: COLOR.primary, cursor: "pointer", padding: 0 }}
           >
             New
@@ -243,7 +210,7 @@ export function AiView({ patients, pendingQuestion, onConsumedPending }: AiViewP
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              submit(input, contextPatientId);
+              handleSubmit(input, contextPatientId);
             }}
             style={{ display: "flex", alignItems: "center", gap: 10, border: `1px solid ${neutral.border}`, borderRadius: 10, padding: "10px 12px" }}
           >
